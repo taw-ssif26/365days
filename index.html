@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>365 Days Since You Stopped Being a Passer-By</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS & PURPLE-MAGENTA-BLUE-GOLD PALETTE
+   ============================================================ */
+:root {
+  --black: #06010a;
+  --purple-black: #11021d;
+  --burgundy: #2c013a;
+  --charcoal: #180326;
+  --ivory: #fbf5ff;
+  --ivory-dim: #d9cadc;
+  --crimson: #d1007a;
+  --purple: #8113f0;
+  --magenta: #e0007d;
+  --blue: #0091ff;
+  --gold: #f5c156;
+  --gold-dim: #b88b32;
+  --sky-blue: #00dbff;
+  --serif: 'Cormorant Garamond', serif;
+  --script: 'Dancing Script', cursive;
+  --sans: 'Jost', sans-serif;
+  --mono: 'Space Mono', monospace;
+  --dur: 1;
+}
+@media (prefers-reduced-motion: reduce) { :root { --dur: 0.001; } }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: var(--black); color: var(--ivory); font-family: var(--sans); overflow: hidden; }
+body { position: relative; background-image: radial-gradient(circle at 50% 50%, var(--purple-black) 0%, var(--black) 100%); }
+#canvas-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+#app { position: relative; z-index: 2; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; }
+::selection { background: var(--magenta); color: var(--ivory); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+/* Cinematic Scene */
+.scene {
+  min-height: 100%; width: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 8vh 6vw 14vh; position: relative;
+  opacity: 0; animation: fadeIn calc(1.5s * var(--dur)) ease forwards;
+}
+.eyebrow {
+  font-family: var(--mono); font-size: .75rem; letter-spacing: .35em; text-transform: uppercase;
+  color: var(--sky-blue); margin-bottom: 1.4rem; text-shadow: 0 0 10px rgba(0, 219, 255, 0.4);
+}
+h1.title {
+  font-family: var(--serif); font-weight: 500; font-size: clamp(2.2rem, 6vw, 4.5rem);
+  color: var(--ivory); line-height: 1.1; letter-spacing: .01em;
+  text-shadow: 0 0 35px rgba(224, 0, 125, 0.4); margin-bottom: 1rem;
+}
+.sub {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--ivory-dim); margin-bottom: 2rem;
+}
+.line {
+  font-family: var(--serif); font-size: clamp(1.15rem, 2.8vw, 1.8rem); color: var(--ivory-dim);
+  max-width: 680px; line-height: 1.7; margin: 0.8rem auto; opacity: 0;
+}
+.line.show { animation: fadeUp calc(1.2s * var(--dur)) ease forwards; }
+.glow { color: var(--gold); text-shadow: 0 0 15px rgba(245, 193, 86, 0.5); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+@keyframes wave { 0%, 100% { height: 20%; } 50% { height: 90%; } }
+
+/* ============================================================
+   BUTTONS — IMPROVED
+   ============================================================ */
+.continue {
+  position: fixed; bottom: 6vh; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: .78rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ivory); background: rgba(17, 2, 29, 0.85); border: 1px solid rgba(0, 145, 255, 0.5);
+  border-radius: 30px; cursor: pointer; display: flex; align-items: center; gap: .8rem; z-index: 5;
+  padding: .9rem 2rem; backdrop-filter: blur(8px);
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 0 0 rgba(0, 145, 255, 0.0), inset 0 0 0 0 rgba(255,255,255,0);
+}
+.continue:hover {
+  border-color: var(--gold); color: var(--gold);
+  box-shadow: 0 0 20px rgba(245, 193, 86, 0.25), 0 4px 20px rgba(0,0,0,0.5);
+  transform: translateX(-50%) translateY(-2px);
+}
+.continue span.arrow { display: inline-block; transition: transform .3s ease; }
+.continue:hover span.arrow { transform: translateX(6px); }
+
+.btn-ghost {
+  font-family: var(--mono); font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--sky-blue); background: rgba(0, 145, 255, 0.07); border: 1px solid rgba(0, 145, 255, 0.4);
+  border-radius: 30px; cursor: pointer; padding: .75rem 1.8rem; margin-top: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative; overflow: hidden;
+}
+.btn-ghost::after {
+  content: ''; position: absolute; inset: 0; border-radius: 30px;
+  background: radial-gradient(circle at center, rgba(0, 219, 255, 0.15) 0%, transparent 70%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.btn-ghost:hover {
+  color: var(--ivory); border-color: var(--sky-blue);
+  box-shadow: 0 0 20px rgba(0, 219, 255, 0.2), 0 4px 16px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+}
+.btn-ghost:hover::after { opacity: 1; }
+.btn-ghost:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-ghost:active:not(:disabled) { transform: translateY(0); }
+
+/* HUD */
+.progress-dots { position: fixed; top: 4vh; right: 5vw; display: flex; gap: 8px; z-index: 5; }
+.progress-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(0, 145, 255, 0.2); display: block; transition: all 0.4s ease; }
+.progress-dots i.done { background: var(--magenta); box-shadow: 0 0 8px var(--magenta); }
+#sound-toggle {
+  position: fixed; top: 4vh; left: 5vw; z-index: 6; background: rgba(17, 2, 29, 0.6); border: 1px solid var(--purple);
+  color: var(--purple); border-radius: 50%; width: 38px; height: 38px; cursor: pointer;
+  font-size: .9rem; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px);
+  transition: all 0.3s;
+}
+#sound-toggle:hover { color: var(--gold); border-color: var(--gold); }
+#sound-toggle.on { color: var(--sky-blue); border-color: var(--sky-blue); box-shadow: 0 0 10px rgba(0, 219, 255, 0.5); }
+
+/* ============================================================
+   LOADING OVERLAYS — UNIQUE PER SCENE
+   ============================================================ */
+#loading-overlay {
+  position: fixed; inset: 0; z-index: 20; background: #06010a;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .5s ease; overflow: hidden;
+}
+#loading-overlay.active { opacity: 1; pointer-events: all; }
+#loading-canvas { position: absolute; inset: 0; pointer-events: none; }
+.loading-text {
+  position: relative; z-index: 5; font-family: var(--mono); font-size: .82rem;
+  letter-spacing: .25em; text-transform: uppercase; color: var(--sky-blue);
+  text-align: center; max-width: 320px; margin-top: 2rem;
+  transition: opacity 0.3s;
+}
+.loading-title {
+  position: relative; z-index: 5; font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--ivory); text-align: center; margin-bottom: 0.5rem;
+  text-shadow: 0 0 30px rgba(224, 0, 125, 0.6);
+}
+
+/* ============================================================
+   CHAPTER 00 — FIRST TEXTS
+   ============================================================ */
+.msg-thread { display: flex; flex-direction: column; gap: 1.2rem; max-width: 580px; width: 100%; margin-bottom: 1.5rem; }
+.msg {
+  padding: .9rem 1.3rem; border-radius: 16px; font-family: var(--sans); font-size: .98rem;
+  line-height: 1.5; max-width: 80%; opacity: 0; transform: translateY(15px);
+  animation: fadeUp calc(.7s * var(--dur)) ease forwards;
+}
+.msg.her { align-self: flex-start; background: rgba(0, 145, 255, 0.15); border: 1px solid rgba(0, 145, 255, 0.25); color: var(--ivory-dim); border-bottom-left-radius: 3px; }
+.msg.him { align-self: flex-end; background: rgba(224, 0, 125, 0.25); border: 1px solid rgba(224, 0, 125, 0.4); color: var(--ivory); border-bottom-right-radius: 3px; }
+.heartbeat-text { font-family: var(--mono); font-size: .8rem; letter-spacing: .4em; color: var(--magenta); text-transform: uppercase; opacity: 0; margin-top: 1.5rem; }
+.heartbeat-text.show { animation: fadeIn 1.2s ease forwards, pulse 1.5s ease-in-out infinite; }
+
+/* ============================================================
+   CHAPTER 01 — FIVE DOORS
+   ============================================================ */
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 1.5rem; max-width: 680px; width: 100%; margin: 2.5rem 0; }
+.door {
+  border: 1px solid rgba(0, 145, 255, 0.3); background: linear-gradient(180deg, rgba(224, 0, 125, 0.1), transparent);
+  aspect-ratio: 2/3.2; border-radius: 4px 4px 50px 50px; cursor: pointer; display: flex; align-items: flex-end;
+  justify-content: center; padding-bottom: 1.2rem; position: relative; transition: all .4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.door:hover { transform: translateY(-8px); border-color: var(--sky-blue); box-shadow: 0 8px 25px rgba(0, 219, 255, 0.3); }
+.door.opened { background: linear-gradient(180deg, rgba(224, 0, 125, 0.3), transparent); border-color: var(--magenta); cursor: default; transform: none; }
+.door span { font-family: var(--mono); font-size: .68rem; letter-spacing: .15em; color: var(--sky-blue); transition: color 0.3s; }
+.door.opened span { color: var(--gold); }
+.door.secret { opacity: 0; pointer-events: none; transform: scale(0.9); transition: all 1s ease; }
+.door.secret.reveal { opacity: 1; pointer-events: all; border-color: var(--gold); transform: scale(1); }
+.door-detail {
+  max-width: 580px; margin-top: 1.5rem; padding: 1.5rem; border-left: 3px solid var(--magenta);
+  text-align: left; background: rgba(224, 0, 125, 0.05); border-radius: 0 12px 12px 0;
+  opacity: 0; animation: fadeUp calc(.8s*var(--dur)) ease forwards;
+}
+.door-detail p { font-family: var(--serif); font-size: 1.15rem; line-height: 1.65; color: var(--ivory-dim); margin-bottom: .6rem; }
+.door-detail p.reveal-line { color: var(--gold); font-style: italic; }
+
+/* ============================================================
+   CHAPTER 02 — CHEMISTRY
+   ============================================================ */
+.elements-row { display: flex; gap: 1.5rem; margin: 2.5rem 0; flex-wrap: wrap; justify-content: center; }
+.element {
+  width: 85px; height: 85px; border: 1px solid rgba(0, 145, 255, 0.4); border-radius: 12px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; cursor: pointer; font-family: var(--mono); background: rgba(17, 2, 29, 0.5);
+  transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275); user-select: none;
+}
+.element b { font-size: 1.65rem; color: var(--ivory); }
+.element small { font-size: .6rem; letter-spacing: .05em; color: var(--sky-blue); margin-top: .15rem; }
+.element:hover, .element.selected { border-color: var(--gold); background: rgba(224, 0, 125, 0.2); transform: translateY(-5px) scale(1.05); box-shadow: 0 8px 20px rgba(224, 0, 125, 0.2); }
+.beaker-wrap { margin: 2rem auto; position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
+.beaker-svg { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--magenta); fill: none; stroke-width: 2; transition: all 0.5s ease; }
+.beaker-svg.reacting { stroke: var(--gold); filter: drop-shadow(0 0 15px var(--magenta)); }
+.beaker-text { font-family: var(--mono); font-size: 1.1rem; color: var(--ivory-dim); z-index: 1; text-align: center; }
+.reaction-result { font-family: var(--serif); font-size: clamp(2rem, 6vw, 3.8rem); color: var(--gold); opacity: 0; margin-top: 1.5rem; text-shadow: 0 0 25px rgba(245, 193, 86, 0.4); }
+.reaction-result.show { animation: fadeUp calc(1s*var(--dur)) ease forwards; }
+
+/* ============================================================
+   CHAPTER 03 — PARTICLES
+   ============================================================ */
+.particle-stage { position: relative; width: 100%; max-width: 550px; height: 260px; margin: 2.5rem auto; border: 1px dashed rgba(0, 145, 255, 0.25); border-radius: 12px; overflow: hidden; }
+.particle { position: absolute; width: 16px; height: 16px; border-radius: 50%; box-shadow: 0 0 20px 6px currentColor; }
+.p1 { background: var(--magenta); color: var(--magenta); top: 15%; left: 20%; transition: all calc(2s*var(--dur)) cubic-bezier(.25,1,.2,1); }
+.p2 { background: var(--blue); color: var(--blue); top: 75%; left: 75%; transition: all calc(2s*var(--dur)) cubic-bezier(.25,1,.2,1); }
+.orbit .p1 { animation: orbitA 5s linear infinite; }
+.orbit .p2 { animation: orbitB 5s linear infinite; }
+@keyframes orbitA { from { transform: rotate(0deg) translateX(45px); } to { transform: rotate(360deg) translateX(45px); } }
+@keyframes orbitB { from { transform: rotate(180deg) translateX(45px); } to { transform: rotate(540deg) translateX(45px); } }
+
+/* ============================================================
+   CHAPTER 04 — STORM
+   ============================================================ */
+.storm-choice-wrap { position: relative; margin-top: 2.5rem; min-height: 140px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 2rem; }
+.choice-btn {
+  padding: .9rem 2.2rem; font-family: var(--sans); font-weight: 500; font-size: 1.05rem; border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+}
+.choice-btn.yes {
+  background: linear-gradient(135deg, var(--magenta), var(--purple)); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--ivory); box-shadow: 0 4px 20px rgba(224, 0, 125, 0.4);
+}
+.choice-btn.yes:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(224, 0, 125, 0.6); }
+.choice-btn.no { background: transparent; border: 1px solid rgba(0, 145, 255, 0.4); color: var(--sky-blue); }
+
+/* ============================================================
+   CHAPTER 05 — CONSTELLATION
+   ============================================================ */
+.const-stage { position: relative; width: 100%; height: 50vh; min-height: 380px; max-width: 960px; margin: 1rem auto; }
+.star-dot {
+  position: absolute; width: 32px; height: 32px;
+  cursor: pointer; transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 10px rgba(245, 193, 86, 0.8));
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.star-dot svg { width: 100%; height: 100%; fill: var(--gold); transition: fill 0.3s, transform 0.3s; }
+.star-dot:hover { transform: translate(-50%, -50%) scale(1.4); filter: drop-shadow(0 0 15px rgba(224, 0, 125, 1)); }
+.star-dot:hover svg { fill: var(--magenta); }
+.star-dot.opened svg { fill: var(--magenta); }
+.star-dot.opened { filter: drop-shadow(0 0 12px rgba(224, 0, 125, 0.9)); }
+.star-dot.hidden-star { opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+.star-dot.hidden-star.reveal { opacity: 1; pointer-events: all; }
+.memory-modal {
+  position: fixed; inset: 0; background: rgba(10, 2, 22, 0.94); z-index: 15; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .4s ease; backdrop-filter: blur(8px);
+}
+.memory-modal.active { opacity: 1; pointer-events: all; }
+.memory-card {
+  max-width: 480px; width: 90vw; border: 1px solid var(--purple); background: var(--charcoal); padding: 2.5rem;
+  text-align: left; position: relative; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+.memory-card .m-id { font-family: var(--mono); font-size: .7rem; color: var(--gold); letter-spacing: .2em; }
+.memory-card .m-date { font-family: var(--mono); font-size: .7rem; color: var(--sky-blue); margin-top: .4rem; }
+.memory-card h3 { font-family: var(--serif); font-size: 1.7rem; margin: .8rem 0 .8rem; color: var(--ivory); }
+.memory-card p { font-family: var(--serif); font-size: 1.1rem; line-height: 1.65; color: var(--ivory-dim); }
+.memory-close { position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; color: var(--sky-blue); font-size: 1.1rem; cursor: pointer; transition: color 0.3s; }
+.memory-close:hover { color: var(--gold); }
+
+/* ============================================================
+   CHAPTER 06 — NUMBERS
+   ============================================================ */
+.stat-block { margin: 1.8rem 0; opacity: 0; }
+.stat-block.show { animation: fadeUp calc(.8s*var(--dur)) ease forwards; }
+.stat-num { font-family: var(--mono); font-weight: 700; font-size: clamp(3rem, 10vw, 5.5rem); color: var(--magenta); line-height: 1; text-shadow: 0 0 20px rgba(224, 0, 125, 0.4); }
+.stat-label { font-family: var(--sans); font-size: .88rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ivory-dim); margin-top: .4rem; }
+.stat-note { font-family: var(--mono); font-size: .65rem; color: var(--gold-dim); letter-spacing: .1em; margin-top: .3rem; }
+.playful-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; max-width: 680px; margin-top: 2rem; width: 100%; }
+.playful-grid div { border: 1px solid rgba(0, 145, 255, 0.25); padding: 1.2rem; border-radius: 8px; background: rgba(129, 19, 240, 0.04); }
+.playful-grid b { display: block; font-family: var(--serif); font-size: 1.6rem; color: var(--gold); margin-bottom: 0.3rem; }
+.playful-grid small { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; color: var(--ivory-dim); text-transform: uppercase; }
+.badges { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 2rem; max-width: 680px; }
+.badge { border: 1px solid rgba(0, 145, 255, 0.4); border-radius: 20px; padding: .6rem 1rem; font-family: var(--mono); font-size: .68rem; letter-spacing: .05em; color: var(--sky-blue); text-transform: uppercase; background: rgba(17, 2, 29, 0.6); }
+
+/* ============================================================
+   CHAPTER 07 — OBSERVATORY
+   ============================================================ */
+.obs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; max-width: 800px; width: 100%; margin-top: 2rem; }
+.obs-card { border: 1px solid rgba(0, 145, 255, 0.25); border-radius: 8px; padding: 1.4rem; text-align: left; background: rgba(17, 2, 29, 0.5); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.obs-card p.top { font-family: var(--serif); font-size: 1.1rem; color: var(--ivory-dim); line-height: 1.5; }
+.obs-card p.top::before { content: '✦ '; color: var(--gold); }
+.flip-card { border: 1px solid var(--magenta); border-radius: 8px; padding: 1.4rem; text-align: left; cursor: pointer; background: rgba(224, 0, 125, 0.05); transition: all 0.3s; }
+.flip-card:hover { border-color: var(--sky-blue); background: rgba(224, 0, 125, 0.08); }
+.flip-card .front { font-family: var(--serif); font-style: italic; color: var(--sky-blue); font-size: 1.05rem; }
+.flip-card .back { display: none; font-family: var(--serif); color: var(--ivory-dim); margin-top: .8rem; padding-top: .8rem; border-top: 1px solid rgba(0, 145, 255, 0.3); line-height: 1.6; }
+.flip-card.open .back { display: block; }
+.flip-card.open .front { color: var(--gold); }
+
+/* ============================================================
+   CHAPTER 08 — MIDNIGHT RADIO
+   ============================================================ */
+.radio-frame { width: 100%; max-width: 520px; border: 1px solid rgba(0, 145, 255, 0.4); border-radius: 12px; padding: 2rem; background: rgba(17, 2, 29, 0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.disc { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle, var(--charcoal) 30%, var(--magenta) 32%, var(--charcoal) 35%, var(--magenta) 60%); margin: 0 auto 1.5rem; animation: spin 8s linear infinite; animation-play-state: paused; box-shadow: 0 0 15px rgba(224, 0, 125, 0.4); }
+.disc.playing { animation-play-state: running; }
+.waveform { display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 40px; margin-bottom: 1.5rem; }
+.waveform i { width: 4px; background: var(--purple); height: 20%; display: block; border-radius: 2px; }
+.waveform.playing i { animation: wave .9s ease-in-out infinite; background: var(--sky-blue); }
+.waveform i:nth-child(odd) { animation-delay: .15s; }
+.waveform i:nth-child(3n) { animation-delay: .3s; }
+.track { padding: .9rem 0; border-bottom: 1px solid rgba(0, 145, 255, 0.2); cursor: pointer; font-family: var(--sans); font-size: 1rem; color: var(--ivory-dim); text-align: left; display: flex; justify-content: space-between; align-items: center; transition: color 0.2s; }
+.track:hover, .track.active { color: var(--sky-blue); }
+.track .t-artist { font-family: var(--mono); font-size: .7rem; color: var(--gold); }
+.track-note { font-family: var(--serif); font-style: italic; color: var(--gold); margin-top: 1.5rem; font-size: 1.05rem; min-height: 2.5em; line-height: 1.6; }
+
+/* ============================================================
+   CHAPTER 09 — ROSE GARDEN
+   ============================================================ */
+.rose-wrap { position: relative; width: 220px; height: 220px; margin: 2rem auto; cursor: pointer; }
+.firefly { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px 4px var(--magenta); animation: drift 5s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translate(0,0); } to { transform: translate(20px,-15px); } }
+
+/* ============================================================
+   CHAPTER 11 — ORBIT
+   ============================================================ */
+.orbit-wrap { position: relative; width: min(85vw, 450px); height: min(85vw, 450px); margin: 2rem auto; }
+.orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--magenta); text-shadow: 0 0 15px rgba(224, 0, 125, 0.5); }
+.orbit-ring { position: absolute; inset: 0; border: 1px dashed rgba(0, 145, 255, 0.3); border-radius: 50%; animation: spin 40s linear infinite; }
+.orbit-node {
+  position: absolute; width: 70px; height: 70px; margin: -35px; border-radius: 50%; border: 1px solid var(--magenta);
+  display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: .75rem; cursor: pointer;
+  background: var(--black); transition: all .3s ease; color: var(--ivory-dim);
+}
+.orbit-node:hover, .orbit-node.active { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 20px rgba(245, 193, 86, 0.3); }
+.future-text { max-width: 580px; margin-top: 1.5rem; min-height: 4.5em; font-family: var(--serif); font-size: 1.15rem; color: var(--ivory-dim); line-height: 1.65; }
+
+/* ============================================================
+   CHAPTER 12 — LETTER VAULT (Paper Writing Experience)
+   ============================================================ */
+.vault-door { width: 190px; height: 250px; border: 2px solid var(--magenta); border-radius: 90px 90px 12px 12px; margin: 2rem auto; display: flex; align-items: center; justify-content: center; position: relative; }
+.vault-door::before { content: ''; position: absolute; inset: 15px; border: 1px dashed rgba(0, 145, 255, 0.4); border-radius: 75px 75px 8px 8px; }
+.envelopes { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; max-width: 900px; margin-top: 2rem; width: 100%; }
+.envelope { width: 380px; border: 1px solid rgba(0, 145, 255, 0.4); border-radius: 8px; text-align: left; background: rgba(17, 2, 29, 0.6); overflow: hidden; }
+.envelope h4 { font-family: var(--mono); font-size: .72rem; letter-spacing: .15em; color: var(--gold); text-transform: uppercase; margin-bottom: 0; padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(0,145,255,0.2); }
+
+/* Paper Writing Surface */
+.paper-surface {
+  background: #faf7f0;
+  background-image: repeating-linear-gradient(transparent, transparent 28px, rgba(0,145,255,0.12) 28px, rgba(0,145,255,0.12) 29px);
+  border: none; border-radius: 0;
+  padding: 1rem 1.5rem;
+  position: relative;
+  min-height: 240px;
+}
+.paper-surface::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 45px;
+  width: 1px; height: 100%;
+  background: rgba(255, 100, 100, 0.3);
+}
+.paper-surface textarea {
+  width: 100%; min-height: 200px;
+  background: transparent; border: none; outline: none;
+  color: #2a1a3e; font-family: var(--script); font-size: 1.15rem;
+  line-height: 29px; resize: vertical;
+  padding-left: 20px;
+  margin-left: 10px;
+}
+.paper-surface textarea::placeholder { color: rgba(42,26,62,0.35); font-style: italic; }
+
+.sealed-display {
+  padding: 1.5rem;
+  background: rgba(17, 2, 29, 0.8);
+}
+.sealed-msg { font-family: var(--serif); font-style: italic; color: var(--gold); font-size: 1.05rem; line-height: 1.6; }
+.sealed-letter-preview {
+  font-family: var(--script); font-size: 1.1rem; color: #faf7f0;
+  background: rgba(250, 247, 240, 0.08);
+  border: 1px solid rgba(245, 193, 86, 0.2);
+  border-radius: 8px;
+  padding: 1rem; margin-top: 1rem;
+  line-height: 1.7; word-break: break-word; white-space: pre-line;
+  max-height: 180px; overflow-y: auto;
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+  position: relative;
+}
+.sealed-letter-preview.unlocked { filter: none; pointer-events: auto; user-select: text; }
+.sealed-overlay {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  margin-top: 0.8rem; padding: 0.8rem;
+  background: rgba(224, 0, 125, 0.06);
+  border: 1px dashed rgba(224, 0, 125, 0.3);
+  border-radius: 8px;
+}
+.lock-icon { font-size: 2rem; margin-bottom: 0.4rem; }
+
+/* Countdown Timer */
+.countdown-timer {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  margin: 1rem 0; padding: 1rem;
+  background: rgba(6, 1, 10, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 193, 86, 0.2);
+}
+.countdown-unit { text-align: center; min-width: 55px; }
+.countdown-num { font-family: var(--mono); font-size: 1.6rem; color: var(--gold); font-weight: 700; display: block; text-shadow: 0 0 10px rgba(245, 193, 86, 0.4); }
+.countdown-lbl { font-family: var(--mono); font-size: .55rem; color: var(--sky-blue); letter-spacing: .1em; text-transform: uppercase; }
+
+.his-letter-body { font-family: var(--script); font-size: 1.1rem; line-height: 1.7; color: #2a1a3e; display: none; max-height: 280px; overflow-y: auto; padding-right: 5px; white-space: pre-line; }
+.his-letter-body.open { display: block; }
+.his-paper {
+  background: #faf7f0;
+  background-image: repeating-linear-gradient(transparent, transparent 28px, rgba(0,145,255,0.08) 28px, rgba(0,145,255,0.08) 29px);
+  padding: 1.5rem; margin: 0; border-radius: 0 0 8px 8px;
+}
+.letter-action-area { padding: 1.2rem 1.5rem; display: flex; gap: 0.8rem; flex-wrap: wrap; border-top: 1px solid rgba(0,145,255,0.15); }
+
+/* ============================================================
+   CHAPTER 13 — SUNSET CLIMAX (Refined)
+   ============================================================ */
+.sunset-stage {
+  position: relative; width: 100%; max-width: 680px; height: 380px;
+  margin: 1.5rem auto; border-radius: 20px; overflow: hidden;
+  background: linear-gradient(180deg,
+    #0a0010 0%,
+    #1b0235 25%,
+    #3d0055 50%,
+    #6b0075 65%,
+    #8f0050 75%,
+    #180426 85%,
+    #06010a 100%
+  );
+  border: 1px solid rgba(0, 145, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(129, 19, 240, 0.3);
+  cursor: pointer;
+}
+
+/* Horizon glow */
+.horizon-glow {
+  position: absolute; bottom: 32%; left: 0; right: 0; height: 60px;
+  background: linear-gradient(to top, rgba(255, 50, 150, 0.5), transparent);
+  filter: blur(12px);
+}
+
+/* The Heart/Sun in the sky */
+.sky-heart {
+  position: absolute; top: 18%; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 70px;
+  filter: drop-shadow(0 0 25px rgba(255, 200, 50, 0.9));
+  transition: all 3.5s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 4;
+}
+.sky-heart svg {
+  width: 100%; height: 100%;
+}
+/* starts as a circle (sun) */
+.sky-heart .sun-shape {
+  fill: #ffe166;
+  transition: all 3.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+/* after trigger: heart shape, pink/magenta */
+.sunset-stage.heart-phase .sky-heart {
+  filter: drop-shadow(0 0 40px rgba(224, 0, 125, 1)) drop-shadow(0 0 80px rgba(224, 0, 125, 0.5));
+  transform: translateX(-50%) scale(1.2);
+}
+.sunset-stage.heart-phase .sky-heart .sun-shape {
+  fill: var(--magenta);
+}
+
+/* Reflection column in water */
+.sun-reflection {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: 8%; width: 8px;
+  background: linear-gradient(to bottom, rgba(255, 220, 100, 0.7), transparent);
+  border-radius: 4px;
+  transition: all 3.5s ease;
+  z-index: 3;
+  height: 22%;
+}
+.sunset-stage.heart-phase .sun-reflection {
+  background: linear-gradient(to bottom, rgba(224, 0, 125, 0.6), transparent);
+  width: 12px;
+}
+
+/* Stars appearing in the sky */
+.sky-stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+.sky-star {
+  position: absolute; width: 2px; height: 2px; background: white;
+  border-radius: 50%; opacity: 0;
+  animation: starAppear 1s ease forwards;
+  box-shadow: 0 0 4px 1px rgba(255,255,255,0.8);
+}
+@keyframes starAppear { to { opacity: 1; } }
+
+/* Water */
+.water {
+  position: absolute; bottom: 0; width: 100%; height: 38%;
+  background: linear-gradient(180deg, rgba(30, 0, 50, 0.85) 0%, rgba(6, 1, 10, 0.95) 100%);
+  z-index: 2;
+}
+.ripple-line {
+  position: absolute; width: 220px; height: 1.5px; background: rgba(245, 193, 86, 0.5);
+  left: 50%; transform: translateX(-50%); filter: blur(1px);
+}
+.ripple-line:nth-child(1) { top: 10%; animation: oscillate 4s ease-in-out infinite; }
+.ripple-line:nth-child(2) { top: 40%; width: 140px; animation: oscillate 5s ease-in-out infinite 1s; }
+.ripple-line:nth-child(3) { top: 70%; width: 80px; animation: oscillate 3s ease-in-out infinite 0.5s; }
+.sunset-stage.heart-phase .ripple-line { background: rgba(224, 0, 125, 0.4); }
+@keyframes oscillate {
+  0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.3; }
+  50% { transform: translateX(-45%) scaleX(1.15); opacity: 0.6; }
+}
+
+/* Silhouettes */
+.silhouettes { position: absolute; bottom: 32%; left: 0; right: 0; z-index: 5; display: flex; justify-content: center; }
+
+/* Boat */
+.boat-svg { position: absolute; bottom: 36%; left: 50%; transform: translateX(-50%); z-index: 4; width: 300px; }
+
+/* ============ THE BIG MWAAH KISS ============ */
+.mwaah-overlay {
+  position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(30, 0, 50, 0.95) 0%, rgba(6,1,10,0.98) 100%);
+  opacity: 0; pointer-events: none; transition: opacity 1.2s ease;
+}
+.mwaah-overlay.active { opacity: 1; pointer-events: all; }
+.mwaah-main {
+  font-size: clamp(6rem, 20vw, 14rem);
+  line-height: 1;
+  animation: mwaahPop 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  transform: scale(0); display: block;
+  filter: drop-shadow(0 0 40px rgba(224, 0, 125, 0.9));
+}
+.mwaah-word {
+  font-family: var(--script); font-size: clamp(2.5rem, 8vw, 5rem);
+  color: var(--magenta); display: block; margin-top: 1rem;
+  opacity: 0; animation: fadeUp 1s ease 1.2s forwards;
+  text-shadow: 0 0 30px rgba(224, 0, 125, 0.8);
+  letter-spacing: 0.1em;
+}
+.mwaah-close {
+  margin-top: 2rem; opacity: 0; animation: fadeUp 0.8s ease 2.2s forwards;
+  font-family: var(--mono); font-size: .75rem; letter-spacing: .2em; color: var(--ivory-dim);
+  background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px;
+  padding: .7rem 1.6rem; cursor: pointer; transition: all 0.3s;
+}
+.mwaah-close:hover { color: var(--gold); border-color: var(--gold); }
+@keyframes mwaahPop {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.15) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Heart particles from mwaah */
+.heart-burst {
+  position: absolute; pointer-events: none;
+  font-size: 1.5rem; animation: burstHeart 1.5s ease forwards;
+}
+@keyframes burstHeart {
+  0% { transform: translate(0,0) scale(0); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+}
+
+.ps-secret { position: fixed; bottom: 6vh; left: 50%; transform: translateX(-50%); font-family: var(--serif); font-style: italic; color: var(--magenta); opacity: 0; pointer-events: none; text-align: center; z-index: 8; font-size: 1.15rem; line-height: 1.5; }
+.ps-secret.show { animation: fadeIn calc(1.5s*var(--dur)) ease forwards; }
+
+.begin-again { font-family: var(--mono); font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); background: none; border: 1px solid var(--gold-dim); padding: .8rem 1.8rem; margin-top: 2rem; cursor: pointer; border-radius: 30px; transition: all 0.3s; }
+.begin-again:hover { border-color: var(--sky-blue); color: var(--sky-blue); box-shadow: 0 0 15px rgba(0, 219, 255, 0.2); }
+
+@media (max-width: 640px) {
+  .scene { padding: 6vh 5vw 16vh; }
+  .envelope { width: 100%; }
+  .orbit-wrap { width: 88vw; height: 88vw; }
+  .sunset-stage { height: 300px; }
+}
+</style>
+</head>
+<body>
+<canvas id="canvas-bg"></canvas>
+<div class="progress-dots" id="progress-dots"></div>
+<button id="sound-toggle" title="Ambient sound">♫</button>
+<div id="app"></div>
+
+<!-- Loading overlay with canvas -->
+<div id="loading-overlay">
+  <canvas id="loading-canvas"></canvas>
+  <div class="loading-title" id="loading-title"></div>
+  <div class="loading-text" id="loading-text"></div>
+</div>
+
+<!-- Memory modal -->
+<div class="memory-modal" id="memory-modal">
+  <div class="memory-card">
+    <button class="memory-close" id="memory-close">close ✕</button>
+    <div class="m-id" id="m-id"></div>
+    <div class="m-date" id="m-date"></div>
+    <h3 id="m-title"></h3>
+    <p id="m-text"></p>
+  </div>
+</div>
+
+<!-- The Big Mwaah! -->
+<div class="mwaah-overlay" id="mwaahOverlay">
+  <span class="mwaah-main" id="mwaahEmoji">💋</span>
+  <span class="mwaah-word">Mwaah!</span>
+  <button class="mwaah-close" onclick="$('#mwaahOverlay').classList.remove('active')">close the kiss ✕</button>
+</div>
+
+<div class="ps-secret" id="ps-secret"></div>
+
+<script>
+/* ================================================================
+   UTILITIES
+   ================================================================ */
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let activeWeather = 'stars';
+(function initCanvas() {
+  const c = $('#canvas-bg'); const ctx = c.getContext('2d');
+  let w, h, elements = [];
+  function resize() { w = c.width = window.innerWidth; h = c.height = window.innerHeight; generateElements(); }
+  function generateElements() {
+    elements = [];
+    if (activeWeather === 'stars') {
+      const count = Math.min(160, Math.floor((w * h) / 8000));
+      for (let i = 0; i < count; i++) elements.push({ type: 'star', x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.6 + 0.4, s: Math.random() * 0.018 + 0.004, p: Math.random() * Math.PI * 2 });
+      for (let i = 0; i < 12; i++) elements.push({ type: 'heart', x: Math.random() * w, y: Math.random() * h, size: Math.random() * 8 + 4, speedY: Math.random() * 0.3 + 0.1, speedX: Math.sin(Math.random() * Math.PI) * 0.2, opacity: Math.random() * 0.3 + 0.08 });
+    } else {
+      const count = Math.min(140, Math.floor(w / 7));
+      for (let i = 0; i < count; i++) elements.push({ type: 'drop', x: Math.random() * w, y: Math.random() * -h, l: Math.random() * 22 + 10, v: Math.random() * 7 + 5, o: Math.random() * 0.45 + 0.1 });
+    }
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, w, h);
+    const g = ctx.createRadialGradient(w/2, h/2, 10, w/2, h/2, Math.max(w, h));
+    g.addColorStop(0, '#160224'); g.addColorStop(1, '#06010a');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    if (activeWeather === 'stars') {
+      elements.forEach(el => {
+        if (el.type === 'star') {
+          ctx.fillStyle = '#fff0f3';
+          ctx.globalAlpha = reduced ? 0.5 : (Math.sin(t * el.s + el.p) * 0.4 + 0.6);
+          ctx.beginPath(); ctx.arc(el.x, el.y, el.r, 0, Math.PI * 2); ctx.fill();
+        } else if (el.type === 'heart') {
+          ctx.globalAlpha = el.opacity;
+          const x = el.x, y = el.y, s = el.size;
+          ctx.fillStyle = `rgba(224, 0, 125, 1)`;
+          ctx.beginPath();
+          ctx.moveTo(x, y + s/4); ctx.quadraticCurveTo(x, y, x+s/2, y); ctx.quadraticCurveTo(x+s, y, x+s, y+s/3);
+          ctx.quadraticCurveTo(x+s, y+(s*2)/3, x+s/2, y+s); ctx.quadraticCurveTo(x, y+(s*2)/3, x, y+s/3); ctx.fill();
+          el.y -= el.speedY; el.x += el.speedX;
+          if (el.y < -30) { el.y = h + 30; el.x = Math.random() * w; }
+        }
+      });
+    } else {
+      ctx.strokeStyle = 'rgba(0, 145, 255, 0.4)'; ctx.lineWidth = 1;
+      elements.forEach(dr => {
+        ctx.globalAlpha = dr.o; ctx.beginPath(); ctx.moveTo(dr.x, dr.y); ctx.lineTo(dr.x+2, dr.y+dr.l); ctx.stroke();
+        dr.y += dr.v; dr.x += 0.5; if (dr.y > h) { dr.y = -dr.l; dr.x = Math.random() * w; }
+      });
+    }
+    ctx.globalAlpha = 1; requestAnimationFrame(draw);
+  }
+  window.setWeather = t => { activeWeather = t; generateElements(); };
+  window.addEventListener('resize', resize); resize(); requestAnimationFrame(draw);
+})();
+
+/* ================================================================
+   AMBIENT SOUND
+   ================================================================ */
+let audioCtx = null, heartbeatTimer = null, soundOn = false;
+function beat() {
+  if (!audioCtx) return;
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.frequency.value = 52; o.type = 'sine';
+  g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.04);
+  g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.28);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.35);
+}
+$('#sound-toggle').addEventListener('click', () => {
+  soundOn = !soundOn; $('#sound-toggle').classList.toggle('on', soundOn);
+  if (soundOn) { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); beat(); heartbeatTimer = setInterval(() => { beat(); setTimeout(beat, 340); }, 1150); }
+  else clearInterval(heartbeatTimer);
+});
+
+/* ================================================================
+   UNIQUE LOADING SCREENS PER SCENE
+   ================================================================ */
+const loadingConfigs = [
+  // scene 0 — intro
+  { title: "Just a moment...", text: "Rewinding to the very beginning", theme: 'heartbeat', color: '#e0007d' },
+  // scene 1 — five doors
+  { title: "The Five Doors", text: "Walking the corridor of your walls", theme: 'particles', color: '#0091ff' },
+  // scene 2 — chemistry
+  { title: "The Laboratory", text: "Heating the elements of us", theme: 'bubbles', color: '#f5c156' },
+  // scene 3 — particle fall
+  { title: "Gravity", text: "Someone fell first", theme: 'rain', color: '#8113f0' },
+  // scene 4 — storm
+  { title: "The Downpour", text: "Standing in the rain together", theme: 'lightning', color: '#00dbff' },
+  // scene 5 — constellation
+  { title: "Stargazing", text: "Mapping the points of light", theme: 'stars_burst', color: '#f5c156' },
+  // scene 6 — numbers
+  { title: "The Ledger", text: "Counting every single day", theme: 'counter', color: '#e0007d' },
+  // scene 7 — observatory
+  { title: "The Observatory", text: "Finding the tiny universe of you", theme: 'telescope', color: '#8113f0' },
+  // scene 8 — radio
+  { title: "Midnight Broadcast", text: "Searching for the right frequency", theme: 'waveform', color: '#00dbff' },
+  // scene 9 — rose
+  { title: "The Garden", text: "A bud is about to open", theme: 'petals', color: '#e0007d' },
+  // scene 10 — taj
+  { title: "The Monument", text: "Building something from memory", theme: 'draw', color: '#f5c156' },
+  // scene 11 — future
+  { title: "The Years Ahead", text: "Orbiting into tomorrow", theme: 'orbit_load', color: '#8113f0' },
+  // scene 12 — letters
+  { title: "The Vault", text: "Unlocking something sacred", theme: 'vault', color: '#f5c156' },
+  // scene 13 — climax
+  { title: "Full Circle", text: "Where it all began again", theme: 'heart_final', color: '#e0007d' },
+];
+
+let loadingAnimFrame = null;
+function startLoadingAnimation(config) {
+  const lc = $('#loading-canvas');
+  const lctx = lc.getContext('2d');
+  lc.width = window.innerWidth; lc.height = window.innerHeight;
+  const w = lc.width, h = lc.height;
+  const cx = w / 2, cy = h / 2;
+  if (loadingAnimFrame) cancelAnimationFrame(loadingAnimFrame);
+
+  const t0 = performance.now();
+  const theme = config.theme;
+  const col = config.color;
+
+  // Theme-specific init data
+  let particles = [];
+  if (theme === 'particles') {
+    for (let i = 0; i < 60; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      particles.push({ x: cx, y: cy, vx: Math.cos(angle) * (Math.random()*4+1), vy: Math.sin(angle) * (Math.random()*4+1), r: Math.random()*3+1, life: 1, decay: Math.random()*0.012+0.005 });
+    }
+  }
+  if (theme === 'bubbles') {
+    for (let i = 0; i < 30; i++) {
+      particles.push({ x: Math.random()*w, y: h + 20, vx: (Math.random()-.5)*.8, vy: -(Math.random()*1.5+0.5), r: Math.random()*18+5, opacity: Math.random()*0.5+0.1 });
+    }
+  }
+  if (theme === 'rain') {
+    for (let i = 0; i < 120; i++) {
+      particles.push({ x: Math.random()*w, y: Math.random()*h, l: Math.random()*20+8, v: Math.random()*8+5, o: Math.random()*0.5+0.1 });
+    }
+  }
+  if (theme === 'stars_burst') {
+    for (let i = 0; i < 80; i++) {
+      const angle = (i/80)*Math.PI*2;
+      particles.push({ x: cx, y: cy, angle, dist: 0, maxDist: Math.random()*250+80, speed: Math.random()*3+1, size: Math.random()*3+1, opacity: 1 });
+    }
+  }
+  if (theme === 'petals') {
+    for (let i = 0; i < 40; i++) {
+      particles.push({ x: Math.random()*w, y: -20, vx: (Math.random()-.5)*1.5, vy: Math.random()*2+1, rot: Math.random()*Math.PI*2, rotV: (Math.random()-.5)*0.05, w: Math.random()*20+10, h: Math.random()*12+6, opacity: Math.random()*0.7+0.2 });
+    }
+  }
+  if (theme === 'waveform') {
+    for (let i = 0; i < 40; i++) {
+      particles.push({ x: (i/40)*w, phase: Math.random()*Math.PI*2, amp: Math.random()*60+20, freq: Math.random()*0.04+0.02 });
+    }
+  }
+  if (theme === 'counter') {
+    particles = [{ value: 0 }];
+  }
+  if (theme === 'orbit_load') {
+    for (let i = 0; i < 5; i++) {
+      particles.push({ angle: (i/5)*Math.PI*2, r: 80+i*25, speed: 0.02+i*0.008, size: 4+i*1.5 });
+    }
+  }
+
+  // Heartbeat path
+  let heartPhase = 0;
+  function heartPoint(t) {
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+    return [cx + x * 12, cy + y * 12];
+  }
+
+  function frame() {
+    const t = (performance.now() - t0) / 1000;
+    lctx.clearRect(0, 0, w, h);
+
+    if (theme === 'heartbeat') {
+      // Draw animated heart trace
+      lctx.strokeStyle = col; lctx.lineWidth = 2;
+      const total = 200, drawn = Math.min(total, Math.floor(t * 120));
+      lctx.beginPath();
+      for (let i = 0; i <= drawn; i++) {
+        const angle = (i / total) * Math.PI * 2;
+        const [px, py] = heartPoint(angle);
+        i === 0 ? lctx.moveTo(px, py) : lctx.lineTo(px, py);
+      }
+      lctx.stroke();
+      // Glow fill when complete
+      if (drawn >= total) {
+        lctx.fillStyle = col + '30';
+        lctx.beginPath();
+        for (let i = 0; i <= total; i++) { const a = (i/total)*Math.PI*2; const [px,py] = heartPoint(a); i===0?lctx.moveTo(px,py):lctx.lineTo(px,py); }
+        lctx.fill();
+      }
+      // Pulse dot
+      const trailAngle = ((t * 0.6) % 1) * Math.PI * 2;
+      const [tx2, ty2] = heartPoint(trailAngle);
+      lctx.fillStyle = '#fff'; lctx.shadowColor = col; lctx.shadowBlur = 15;
+      lctx.beginPath(); lctx.arc(tx2, ty2, 5, 0, Math.PI*2); lctx.fill();
+      lctx.shadowBlur = 0;
+    }
+
+    else if (theme === 'particles') {
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.life -= p.decay;
+        lctx.globalAlpha = Math.max(0, p.life);
+        lctx.fillStyle = col;
+        lctx.beginPath(); lctx.arc(p.x, p.y, p.r, 0, Math.PI*2); lctx.fill();
+        if (p.life <= 0) { const a = Math.random()*Math.PI*2; p.x = cx; p.y = cy; p.vx = Math.cos(a)*(Math.random()*4+1); p.vy = Math.sin(a)*(Math.random()*4+1); p.life = 1; }
+      });
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'bubbles') {
+      particles.forEach(p => {
+        p.y += p.vy; p.x += p.vx + Math.sin(t + p.x) * 0.3;
+        lctx.globalAlpha = p.opacity;
+        lctx.strokeStyle = col; lctx.lineWidth = 1.5;
+        lctx.beginPath(); lctx.arc(p.x, p.y, p.r, 0, Math.PI*2); lctx.stroke();
+        if (p.y < -30) { p.y = h + 20; p.x = Math.random()*w; }
+      });
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'rain') {
+      lctx.strokeStyle = col; lctx.lineWidth = 1;
+      particles.forEach(dr => {
+        lctx.globalAlpha = dr.o;
+        lctx.beginPath(); lctx.moveTo(dr.x, dr.y); lctx.lineTo(dr.x+2, dr.y+dr.l); lctx.stroke();
+        dr.y += dr.v;
+        if (dr.y > h) { dr.y = -dr.l; dr.x = Math.random()*w; }
+      });
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'lightning') {
+      if (Math.random() < 0.04) {
+        lctx.strokeStyle = col; lctx.lineWidth = 1.5;
+        lctx.shadowColor = col; lctx.shadowBlur = 20;
+        let sx = Math.random()*w, sy = 0;
+        lctx.beginPath(); lctx.moveTo(sx, sy);
+        while (sy < h) { sx += (Math.random()-.5)*80; sy += Math.random()*60+30; lctx.lineTo(sx, sy); }
+        lctx.stroke(); lctx.shadowBlur = 0;
+      }
+    }
+
+    else if (theme === 'stars_burst') {
+      particles.forEach(p => {
+        p.dist = Math.min(p.maxDist, p.dist + p.speed);
+        const px = cx + Math.cos(p.angle) * p.dist;
+        const py = cy + Math.sin(p.angle) * p.dist;
+        p.opacity = Math.max(0, 1 - p.dist / p.maxDist);
+        lctx.globalAlpha = p.opacity;
+        lctx.fillStyle = col;
+        lctx.beginPath(); lctx.arc(px, py, p.size, 0, Math.PI*2); lctx.fill();
+        if (p.dist >= p.maxDist) { p.dist = 0; p.opacity = 1; }
+      });
+      // Central star
+      lctx.globalAlpha = 0.9 + Math.sin(t*4)*0.1;
+      lctx.fillStyle = col;
+      lctx.beginPath(); lctx.arc(cx, cy, 8, 0, Math.PI*2); lctx.fill();
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'petals') {
+      particles.forEach(p => {
+        p.x += p.vx + Math.sin(t + p.x * 0.01) * 0.5;
+        p.y += p.vy; p.rot += p.rotV;
+        lctx.globalAlpha = p.opacity;
+        lctx.save(); lctx.translate(p.x, p.y); lctx.rotate(p.rot);
+        lctx.fillStyle = col;
+        lctx.beginPath();
+        lctx.ellipse(0, 0, p.w/2, p.h/2, 0, 0, Math.PI*2); lctx.fill();
+        lctx.restore();
+        if (p.y > h + 30) { p.y = -30; p.x = Math.random()*w; }
+      });
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'draw') {
+      // Animate drawing a Taj Mahal silhouette
+      const progress = Math.min(1, t / 1.8);
+      lctx.strokeStyle = col; lctx.lineWidth = 1.5; lctx.globalAlpha = 0.8;
+      const points = [[100,h/2+80],[100,h/2-20],[cx-80,h/2-20],[cx-80,h/2-60],[cx-60,h/2-80],[cx,h/2-120],[cx+60,h/2-80],[cx+80,h/2-60],[cx+80,h/2-20],[w-100,h/2-20],[w-100,h/2+80]];
+      const drawn = Math.floor(progress * points.length);
+      lctx.beginPath();
+      points.slice(0, drawn+1).forEach((p, i) => i===0 ? lctx.moveTo(p[0],p[1]) : lctx.lineTo(p[0],p[1]));
+      lctx.stroke(); lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'waveform') {
+      lctx.strokeStyle = col; lctx.lineWidth = 2;
+      particles.forEach((p, i) => {
+        const y = cy + Math.sin(t * p.freq * 60 + p.phase) * p.amp;
+        const alpha = 0.3 + Math.abs(Math.sin(t * p.freq * 60 + p.phase)) * 0.7;
+        lctx.globalAlpha = alpha;
+        lctx.beginPath(); lctx.moveTo(p.x, cy); lctx.lineTo(p.x, y); lctx.stroke();
+      });
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'counter') {
+      const num = Math.floor(t * 180);
+      lctx.fillStyle = col; lctx.globalAlpha = 0.9;
+      lctx.font = `bold ${Math.min(120, w/5)}px 'Space Mono', monospace`;
+      lctx.textAlign = 'center'; lctx.textBaseline = 'middle';
+      lctx.fillText(num.toLocaleString(), cx, cy);
+      lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'telescope') {
+      // Animated concentric rings with a lens flare
+      for (let i = 5; i > 0; i--) {
+        const r = (i / 5) * 150 + Math.sin(t*2)*10;
+        lctx.strokeStyle = col; lctx.lineWidth = 1;
+        lctx.globalAlpha = 0.1 + (i/5)*0.3;
+        lctx.beginPath(); lctx.arc(cx, cy, r, 0, Math.PI*2); lctx.stroke();
+      }
+      // crosshair
+      lctx.globalAlpha = 0.5; lctx.strokeStyle = col; lctx.lineWidth = 1;
+      lctx.beginPath(); lctx.moveTo(cx-160, cy); lctx.lineTo(cx+160, cy); lctx.stroke();
+      lctx.beginPath(); lctx.moveTo(cx, cy-160); lctx.lineTo(cx, cy+160); lctx.stroke();
+      // glint
+      lctx.globalAlpha = 0.5 + Math.sin(t*3)*0.5;
+      lctx.fillStyle = '#fff'; lctx.shadowColor = col; lctx.shadowBlur = 20;
+      lctx.beginPath(); lctx.arc(cx, cy, 4, 0, Math.PI*2); lctx.fill();
+      lctx.shadowBlur = 0; lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'orbit_load') {
+      particles.forEach((p, i) => {
+        p.angle += p.speed;
+        const px = cx + Math.cos(p.angle) * p.r;
+        const py = cy + Math.sin(p.angle) * p.r;
+        lctx.fillStyle = col; lctx.globalAlpha = 0.4 + (i/particles.length)*0.6;
+        lctx.beginPath(); lctx.arc(px, py, p.size, 0, Math.PI*2); lctx.fill();
+        // Trail
+        lctx.strokeStyle = col; lctx.lineWidth = 0.5; lctx.globalAlpha = 0.1;
+        lctx.beginPath(); lctx.arc(cx, cy, p.r, 0, Math.PI*2); lctx.stroke();
+      });
+      lctx.globalAlpha = 0.9; lctx.fillStyle = col;
+      lctx.shadowColor = col; lctx.shadowBlur = 15;
+      lctx.beginPath(); lctx.arc(cx, cy, 8, 0, Math.PI*2); lctx.fill();
+      lctx.shadowBlur = 0; lctx.globalAlpha = 1;
+    }
+
+    else if (theme === 'vault') {
+      // Spinning combination lock dial
+      const dialR = 100;
+      lctx.strokeStyle = col; lctx.lineWidth = 3;
+      lctx.beginPath(); lctx.arc(cx, cy, dialR, 0, Math.PI*2); lctx.stroke();
+      // Tick marks
+      for (let i = 0; i < 40; i++) {
+        const angle = (i/40)*Math.PI*2 + t*0.8;
+        const inner = dialR - (i%5===0?20:10); const outer = dialR;
+        lctx.beginPath();
+        lctx.moveTo(cx + Math.cos(angle)*inner, cy + Math.sin(angle)*inner);
+        lctx.lineTo(cx + Math.cos(angle)*outer, cy + Math.sin(angle)*outer);
+        lctx.globalAlpha = 0.6; lctx.stroke(); lctx.globalAlpha = 1;
+      }
+      // Center bolt
+      lctx.fillStyle = col; lctx.shadowColor = col; lctx.shadowBlur = 10;
+      lctx.beginPath(); lctx.arc(cx, cy, 12, 0, Math.PI*2); lctx.fill();
+      lctx.shadowBlur = 0;
+    }
+
+    else if (theme === 'heart_final') {
+      // Spiraling hearts converging to center
+      for (let i = 0; i < 24; i++) {
+        const angle = (i/24)*Math.PI*2 + t*0.5;
+        const dist = 200 - (t * 60) % 220;
+        const hx = cx + Math.cos(angle)*dist;
+        const hy = cy + Math.sin(angle)*dist;
+        const s = 12 - (dist/200)*8;
+        lctx.fillStyle = col; lctx.globalAlpha = dist/200;
+        lctx.beginPath();
+        lctx.moveTo(hx, hy+s/4); lctx.quadraticCurveTo(hx, hy, hx+s/2, hy);
+        lctx.quadraticCurveTo(hx+s, hy, hx+s, hy+s/3);
+        lctx.quadraticCurveTo(hx+s, hy+(s*2)/3, hx+s/2, hy+s);
+        lctx.quadraticCurveTo(hx, hy+(s*2)/3, hx, hy+s/3); lctx.fill();
+      }
+      lctx.globalAlpha = 1;
+    }
+
+    loadingAnimFrame = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function loading(toIndex, cb) {
+  const overlay = $('#loading-overlay');
+  const cfg = loadingConfigs[toIndex] || loadingConfigs[0];
+  $('#loading-title').textContent = cfg.title;
+  $('#loading-text').textContent = cfg.text;
+  overlay.classList.add('active');
+  startLoadingAnimation(cfg);
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    if (loadingAnimFrame) { cancelAnimationFrame(loadingAnimFrame); loadingAnimFrame = null; }
+    cb();
+  }, reduced ? 300 : 2400);
+}
+
+function sequence(container, lines, opts = {}) {
+  let idx = 0; const gap = opts.gap ?? 1200;
+  function step() {
+    if (idx >= lines.length) { if (opts.done) opts.done(); return; }
+    const p = el(`<p class="line">${lines[idx]}</p>`);
+    container.appendChild(p);
+    requestAnimationFrame(() => p.classList.add('show'));
+    idx++; setTimeout(step, gap);
+  }
+  step();
+}
+function el(html) { const d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
+function daysBetween(a, b) { return Math.round((new Date(b) - new Date(a)) / 86400000); }
+function fmt(n) { return n.toLocaleString('en-US'); }
+
+/* ================================================================
+   ROUTING
+   ================================================================ */
+let scene = 0;
+const TOTAL_SCENES = 14;
+function renderDots() {
+  const wrap = $('#progress-dots'); wrap.innerHTML = '';
+  for (let i = 1; i < TOTAL_SCENES; i++) wrap.appendChild(el(`<i class="${i <= scene ? 'done' : ''}"></i>`));
+}
+function goTo(n) { loading(n, () => { scene = n; renderDots(); renderScene(); window.scrollTo(0, 0); }); }
+function continueBtn(label = 'Continue walking') {
+  return `<button class="continue" onclick="goTo(${scene + 1})"><span>${label}</span><span class="arrow">→</span></button>`;
+}
+function renderScene() {
+  app.innerHTML = '';
+  [scene0,scene1,scene2,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10,scene11,scene12,scene13][scene]();
+}
+
+/* ================================================================
+   SCENE 0 — OPENING
+   ================================================================ */
+function scene0() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="msg-thread" id="thread"></div><div class="heartbeat-text" id="hb">♥ ♥ ♥</div></div>`);
+  app.appendChild(s);
+  const thread = $('#thread'); let idx = 0;
+  function step() {
+    if (idx >= CONFIG.openingMessages.length) {
+      setTimeout(() => { thread.style.transition = 'opacity 1s ease'; thread.style.opacity = 0; setTimeout(revealIntro, 1000); }, 1000); return;
+    }
+    const m = CONFIG.openingMessages[idx];
+    thread.appendChild(el(`<div class="msg ${m.from}">${m.text}</div>`));
+    idx++; setTimeout(step, 1500);
+  }
+  function revealIntro() {
+    thread.innerHTML = ''; thread.style.opacity = 1;
+    const lines = ["You were convinced that I was just another passer-by.","You thought I'd pack up and leave your life.","<span class='glow'>I didn't.</span>"];
+    sequence(thread, lines, { gap: 1600, done: () => {
+      $('#hb').classList.add('show');
+      setTimeout(() => {
+        s.innerHTML = `<div class="eyebrow">${daysBetween(CONFIG.anniversaryStart, CONFIG.anniversaryEnd)} days later</div><h1 class="title">Happy First Anniversary</h1><p class="sub">365 days of holding fast. I am still here.</p>${continueBtn('Enter our World')}`;
+      }, 2000);
+    }});
+  }
+  step();
+}
+
+/* ================================================================
+   SCENE 1 — FIVE DOORS
+   ================================================================ */
+function scene1() {
+  setWeather('stars');
+  const opened = new Set();
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter One</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">Before We Were Us</h1><p class="sub">The doors you built to protect yourself.</p><div class="doors" id="doors"></div><div id="detail"></div></div>`);
+  app.appendChild(s);
+  const doorsEl = $('#doors');
+  CONFIG.attempts.forEach((a, idx) => doorsEl.appendChild(el(`<div class="door" data-i="${idx}"><span>${a.title}</span></div>`)));
+  const secret = el(`<div class="door secret" id="secretDoor"><span>? ? ?</span></div>`);
+  doorsEl.appendChild(secret);
+  doorsEl.addEventListener('click', e => {
+    const d = e.target.closest('.door:not(.secret)'); if (!d) return;
+    const idx = +d.dataset.i; if (opened.has(idx)) return;
+    opened.add(idx); d.classList.add('opened');
+    const a = CONFIG.attempts[idx];
+    $('#detail').innerHTML = `<div class="door-detail"><p>${a.story}</p><p class="reveal-line">${a.reveal}</p></div>`;
+    if (opened.size === CONFIG.attempts.length) setTimeout(() => $('#secretDoor').classList.add('reveal'), 600);
+  });
+  secret.addEventListener('click', () => {
+    if (!secret.classList.contains('reveal')) return;
+    $('#detail').innerHTML = `<div class="door-detail" style="border-color:var(--gold);"><p>There was never an attempt six.</p><p class="reveal-line">Somewhere along our path, you stopped expecting me to leave.</p></div>`;
+    s.appendChild(el(continueBtn()));
+  }, { once: true });
+}
+
+/* ================================================================
+   SCENE 2 — CHEMISTRY
+   ================================================================ */
+function scene2() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Two</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Chemistry of Us</h1><p class="sub">Synthesizing our gold formula.</p><div class="elements-row" id="els"><div class="element" data-el="I"><b>I</b><small>Iodine</small></div><div class="element" data-el="Lv"><b>Lv</b><small>Livermorium</small></div><div class="element" data-el="U"><b>U</b><small>Uranium</small></div></div><div class="beaker-wrap"><svg class="beaker-svg" id="beakerSvg" viewBox="0 0 100 100"><path d="M35 15 L35 30 L15 80 Q13 85 20 85 L80 85 Q87 85 85 80 L65 30 L65 15 Z"/></svg><div class="beaker-text" id="beakerText">Combine<br>Elements</div></div><button class="btn-ghost" id="combineBtn" disabled>Initiate Synthesis</button><div class="reaction-result" id="result"></div></div>`);
+  app.appendChild(s);
+  const chosen = new Set();
+  $('#els').addEventListener('click', e => {
+    const elBox = e.target.closest('.element'); if (!elBox) return;
+    elBox.classList.toggle('selected');
+    const sym = elBox.dataset.el;
+    chosen.has(sym) ? chosen.delete(sym) : chosen.add(sym);
+    $('#beakerText').innerHTML = chosen.size ? [...chosen].join('<br>+<br>') : 'Combine<br>Elements';
+    $('#combineBtn').disabled = chosen.size !== 3;
+  });
+  $('#combineBtn').addEventListener('click', () => {
+    $('#beakerSvg').classList.add('reacting'); $('#combineBtn').disabled = true;
+    setTimeout(() => {
+      $('#result').innerHTML = `I + Lv + U<br><span style="color:var(--magenta);">I LOVE YOU</span>`;
+      $('#result').classList.add('show');
+      setTimeout(() => { const p = el(`<p class="line show" style="margin-top:1.5rem;">Reaction complete. Stability: absolutely unbreakable. Cause: her.</p>`); s.appendChild(p); s.appendChild(el(continueBtn())); }, 1000);
+    }, 1200);
+  });
+}
+
+/* ================================================================
+   SCENE 3 — PARTICLE FALL
+   ================================================================ */
+function scene3() {
+  setWeather('rain');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Three</div><p class="line show">People write books about how they "fell in love."</p><p class="line" id="l2">But technically speaking...</p><div class="particle-stage" id="stage"><div class="particle p1"></div><div class="particle p2"></div></div><div id="afterText"></div></div>`);
+  app.appendChild(s);
+  setTimeout(() => $('#l2').classList.add('show'), 1200);
+  setTimeout(() => { $('#stage').querySelector('.p1').style.top = '55%'; $('#stage').querySelector('.p1').style.left = '48%'; $('#stage').querySelector('.p2').style.top = '62%'; $('#stage').querySelector('.p2').style.left = '52%'; }, 2800);
+  setTimeout(() => { sequence($('#afterText'), ["<span class='glow'>I fell first.</span>","I grabbed your hand firmly in the cold.","<span class='glow'>And dragged you right down with me.</span>"], { gap: 1500, done: () => { $('#stage').classList.add('orbit'); $('#afterText').appendChild(el(continueBtn())); }}); }, 5000);
+}
+
+/* ================================================================
+   SCENE 4 — STORM
+   ================================================================ */
+function scene4() {
+  setWeather('rain');
+  const s = el(`<div class="scene"><div class="eyebrow">Interlude</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">Through the Downpour</h1><p class="sub" style="max-width:550px; margin:0 auto 1.5rem; line-height:1.6;">Rain is woven deeply into our story. Standing here now, I have one question for you:</p><p class="line show" style="font-style:italic; color:var(--ivory);">"Are you ready to hold my hand through every single storm ahead?"</p><div class="storm-choice-wrap"><button class="choice-btn yes" id="yesBtn">Yes, always</button><button class="choice-btn no" id="noBtn">No</button></div><div id="stormResult"></div></div>`);
+  app.appendChild(s);
+  const noBtn = $('#noBtn'); const yesBtn = $('#yesBtn');
+  function evade() {
+    const parent = $('.storm-choice-wrap'); const rect = parent.getBoundingClientRect(); const btnRect = noBtn.getBoundingClientRect();
+    noBtn.style.position = 'absolute'; noBtn.style.left = `${Math.random()*(rect.width-btnRect.width)}px`; noBtn.style.top = `${Math.random()*(rect.height-btnRect.height)}px`;
+  }
+  noBtn.addEventListener('mouseenter', evade); noBtn.addEventListener('touchstart', e => { e.preventDefault(); evade(); });
+  yesBtn.addEventListener('click', () => {
+    noBtn.style.display = 'none'; yesBtn.disabled = true;
+    sequence($('#stormResult'), ["<span class='glow' style='font-size:1.4rem; display:block; margin-top:2rem;'>I knew you would say yes.</span>","Because we both know there is no escaping this orbit."], { gap: 1200, done: () => s.appendChild(el(continueBtn())) });
+  });
+}
+
+/* ================================================================
+   SCENE 5 — CONSTELLATION
+   ================================================================ */
+function scene5() {
+  setWeather('stars');
+  const layout = [[15,25],[38,12],[65,20],[82,35],[72,65],[48,75],[20,60],[52,45],[84,70]];
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Four</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Constellation of Us</h1><p class="sub">Separate memories that together paint our skies.</p><div class="const-stage" id="stage"></div><p style="position:static; opacity:.6; margin-top:.5rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.1em;">Open at least 3 memory coordinates to build the path</p></div>`);
+  app.appendChild(s);
+  const stage = $('#stage'); let openCount = 0;
+  CONFIG.memories.forEach((m, idx) => {
+    const [x, y] = layout[idx % layout.length];
+    const dot = el(`<div class="star-dot ${m.hidden ? 'hidden-star' : ''}" style="left:${x}%; top:${y}%;" data-i="${idx}"><svg viewBox="0 0 24 24"><path d="M12,2 L15,9 L22,12 L15,15 L12,22 L9,15 L2,12 L9,9 Z"/></svg></div>`);
+    stage.appendChild(dot);
+  });
+  stage.addEventListener('click', e => {
+    const d = e.target.closest('.star-dot'); if (!d) return;
+    if (d.classList.contains('hidden-star') && !d.classList.contains('reveal')) return;
+    const m = CONFIG.memories[+d.dataset.i];
+    $('#m-id').textContent = 'MEMORY ' + m.id; $('#m-date').textContent = m.date; $('#m-title').textContent = m.title; $('#m-text').textContent = m.text;
+    $('#memory-modal').classList.add('active');
+    if (!d.classList.contains('opened')) {
+      d.classList.add('opened'); openCount++;
+      if (openCount >= 3) stage.querySelectorAll('.hidden-star').forEach(h => h.classList.add('reveal'));
+      if (openCount >= 3 && !$('.continue')) s.appendChild(el(continueBtn()));
+    }
+  });
+  $('#memory-close').onclick = () => $('#memory-modal').classList.remove('active');
+}
+
+/* ================================================================
+   SCENE 6 — STATISTICS
+   ================================================================ */
+function scene6() {
+  setWeather('stars');
+  const days = daysBetween(CONFIG.anniversaryStart, CONFIG.anniversaryEnd);
+  const st = CONFIG.statistics;
+  const stats = [[days,"Days safely spent together"],[days*2+st.extraGoodNights+st.extraGoodMornings,"Good Mornings & Good Nights exchanged","Standard days × 2, plus late-night repeats"],[st.messages,"Messages sent across the air","Estimated"],[st.calls,"Hours of shared phone calls","Estimated"],[st.fights,"Fights & storm arguments cleared"]];
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Five</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">Our Year in Numbers</h1><div id="statList" style="width:100%; display:flex; flex-direction:column; align-items:center;"></div></div>`);
+  app.appendChild(s);
+  const list = $('#statList'); let idx = 0;
+  function step() {
+    if (idx >= stats.length) {
+      list.appendChild(el(`<div class="playful-grid"><div><b>100%</b><small>Probability of choosing you tomorrow</small></div><div><b>365</b><small>Consecutive times I chose you again</small></div><div><b>Too many</b><small>Times you thought you were 'too much'</small></div><div><b>0</b><small>Successful escape attempts</small></div></div><div class="badges"><div class="badge">Plot Armor — Survived every insecurity arc</div><div class="badge">Sleep Is Optional — Kept talking past sunrise</div><div class="badge">Passer-by Failure — Result: Unsuccessful. Stayed for good</div></div>`));
+      list.appendChild(el(continueBtn())); return;
+    }
+    const [num, label, note] = stats[idx];
+    const block = el(`<div class="stat-block"><div class="stat-num">0</div><div class="stat-label">${label}</div>${note?`<div class="stat-note">${note}</div>`:''}</div>`);
+    list.appendChild(block); requestAnimationFrame(() => block.classList.add('show'));
+    const numEl = block.querySelector('.stat-num');
+    if (typeof num === 'number' && !reduced) {
+      let cur = 0; const dur = 800; const t0 = performance.now();
+      function tick(t) { const p = Math.min(1,(t-t0)/dur); numEl.textContent = fmt(Math.floor(p*num)); if(p<1) requestAnimationFrame(tick); else numEl.textContent = fmt(num); }
+      requestAnimationFrame(tick);
+    } else numEl.textContent = typeof num==='number'?fmt(num):num;
+    idx++; setTimeout(step, 600);
+  }
+  step();
+}
+
+/* ================================================================
+   SCENE 7 — OBSERVATORY
+   ================================================================ */
+function scene7() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Six</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Private Observatory</h1><p class="sub">The tiny details you didn't think I would notice.</p><div class="obs-grid" id="obsGrid"></div><p style="position:static; opacity:.6; margin:2.5rem 0 0.5rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.1em;">Click the cards you thought would make me leave</p><div class="obs-grid" id="flipGrid"></div>${continueBtn()}</div>`);
+  app.appendChild(s);
+  const g = $('#obsGrid');
+  CONFIG.lovedThings.forEach(t => g.appendChild(el(`<div class="obs-card"><p class="top">${t}</p></div>`)));
+  const fg = $('#flipGrid');
+  CONFIG.thingsThatDidntWork.forEach(item => fg.appendChild(el(`<div class="flip-card"><div class="front">"${item.thought}"</div><div class="back">${item.truth}</div></div>`)));
+  fg.addEventListener('click', e => { const card = e.target.closest('.flip-card'); if (card) card.classList.toggle('open'); });
+}
+
+/* ================================================================
+   SCENE 8 — MIDNIGHT RADIO (10 SONGS)
+   ================================================================ */
+function scene8() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Seven</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">Tonight's Broadcast</h1><p class="sub">Tuned in specifically for one person.</p><div class="radio-frame"><div class="disc" id="disc"></div><div class="waveform" id="wave">${Array.from({length:18}).map(()=>'<i></i>').join('')}</div><div class="track-list" id="tracks" style="max-height:300px; overflow-y:auto;"></div><div class="track-note" id="note">Select a frequency...</div><div id="embedWrap"></div></div>${continueBtn()}</div>`);
+  app.appendChild(s);
+  const tl = $('#tracks');
+  CONFIG.playlist.forEach((t, i) => tl.appendChild(el(`<div class="track" data-i="${i}">${t.title}<span class="t-artist">${t.artist}</span></div>`)));
+  tl.addEventListener('click', e => {
+    const tLine = e.target.closest('.track'); if (!tLine) return;
+    tl.querySelectorAll('.track').forEach(x => x.classList.remove('active')); tLine.classList.add('active');
+    const track = CONFIG.playlist[+tLine.dataset.i];
+    $('#note').textContent = `"${track.note}"`;
+    $('#disc').classList.add('playing'); $('#wave').classList.add('playing');
+    $('#embedWrap').innerHTML = track.videoId ? `<iframe width="100%" height="100" style="margin-top:1rem; border:0; border-radius:8px;" src="https://www.youtube.com/embed/${track.videoId}?autoplay=0" allow="encrypted-media" allowfullscreen></iframe>` : '';
+  });
+}
+
+/* ================================================================
+   SCENE 9 — ROSE
+   ================================================================ */
+function scene9() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Eight</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Garden</h1><p class="sub">Click the rose to watch it bloom.</p><div class="rose-wrap" id="rose"><svg viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="7" fill="#f5c156"/><g id="petals" style="transform-origin:100px 100px; transition:transform 1.8s cubic-bezier(.25,1,.2,1);">${Array.from({length:10}).map((_,i)=>`<ellipse cx="100" cy="100" rx="35" ry="14" fill="#e0007d" opacity=".6" transform="rotate(${i*36} 100 100) translate(22 0)"/>`).join('')}</g></svg></div><div id="gardenText"></div></div>`);
+  app.appendChild(s);
+  $('#rose').addEventListener('click', function once() {
+    $('#petals').style.transform = 'scale(1.8)';
+    for (let i = 0; i < 15; i++) { const f = el(`<div class="firefly" style="left:${Math.random()*100}%; top:${Math.random()*100}%; animation-delay:${Math.random()*2}s;"></div>`); s.appendChild(f); }
+    sequence($('#gardenText'), ["Beautiful things don't become beautiful because they are perfect.","<span class='glow'>They become beautiful because someone chooses to keep caring for them.</span>"], { gap: 1500, done: () => $('#gardenText').appendChild(el(continueBtn())) });
+    $('#rose').removeEventListener('click', once);
+  });
+}
+
+/* ================================================================
+   SCENE 10 — TAJ MAHAL
+   ================================================================ */
+function scene10() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Nine</div><div style="width:100%; max-width:600px; margin:0 auto 1.5rem;"><svg viewBox="0 0 500 280" width="100%"><defs><linearGradient id="moonGlow" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbf5ff" stop-opacity="0.8"/><stop offset="100%" stop-color="#e0007d" stop-opacity="0"/></linearGradient></defs><circle cx="420" cy="60" r="22" fill="url(#moonGlow)"/><g stroke="#f5c156" fill="none" stroke-width="1.2"><rect x="120" y="195" width="260" height="15"/><line x1="100" y1="210" x2="100" y2="100"/><path d="M96 100 L104 100 L102 90 L98 90 Z"/><line x1="400" y1="210" x2="400" y2="100"/><path d="M396 100 L404 100 L402 90 L398 90 Z"/><path d="M150 195 L150 120 L350 120 L350 195"/><path d="M210 195 L210 140 Q250 120 290 140 L290 195 Z"/><path d="M165 195 L165 165 Q180 155 195 165 L195 195"/><path d="M305 195 L305 165 Q320 155 335 165 L335 195"/><path d="M165 155 L165 135 Q180 128 195 135 L195 155"/><path d="M305 155 L305 135 Q320 128 335 135 L335 155"/><path d="M218 120 Q215 90 250 72 Q285 90 282 120 Z"/><line x1="250" y1="72" x2="250" y2="55"/><circle cx="250" cy="50" r="2"/><path d="M175 120 Q175 105 188 100 Q201 105 201 120 Z"/><path d="M299 120 Q299 105 312 100 Q325 105 325 120 Z"/></g><line x1="50" y1="210" x2="450" y2="210" stroke="#b88b32" stroke-width="1.5"/></svg></div><div id="tajText"></div></div>`);
+  app.appendChild(s);
+  sequence($('#tajText'), ["Some people build structures from heavy stone.","They leave monuments in dynamic history.","I possess neither of those.","<span class='glow'>So I built mine from everything I remember about you.</span>"], { gap: 1600, done: () => $('#tajText').appendChild(el(continueBtn())) });
+}
+
+/* ================================================================
+   SCENE 11 — FUTURE TIMELINE
+   ================================================================ */
+function scene11() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Ten</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Years Ahead</h1><p class="sub">Looking through windows that haven't opened yet.</p><div class="orbit-wrap" id="orbit"><div class="orbit-ring"></div><div class="orbit-center">US</div></div><div class="future-text" id="futureText">Select a node from our future...</div>${continueBtn()}</div>`);
+  app.appendChild(s);
+  const orbit = $('#orbit'); const n = CONFIG.futureTimeline.length;
+  CONFIG.futureTimeline.forEach((f, i) => {
+    const angle = (i/n)*2*Math.PI - Math.PI/2, r = 43;
+    const x = 50 + r*Math.cos(angle), y = 50 + r*Math.sin(angle);
+    orbit.appendChild(el(`<div class="orbit-node" style="left:${x}%; top:${y}%;" data-i="${i}">${f.year}</div>`));
+  });
+  orbit.addEventListener('click', e => {
+    const node = e.target.closest('.orbit-node'); if (!node) return;
+    orbit.querySelectorAll('.orbit-node').forEach(x => x.classList.remove('active')); node.classList.add('active');
+    $('#futureText').textContent = CONFIG.futureTimeline[+node.dataset.i].text;
+  });
+}
+
+/* ================================================================
+   SCENE 12 — LETTER VAULT
+   ================================================================ */
+function scene12() {
+  setWeather('stars');
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Eleven</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Letter Vault</h1><p class="sub">Sealed letters to look back upon next August.</p><button class="btn-ghost" id="enterBtn">🔐 Unlock Vault Door</button><div class="envelopes" id="envs" style="display:none;"></div>${continueBtn()}</div>`);
+  app.appendChild(s);
+
+  const UNLOCK_DATE = new Date('2027-08-24T00:00:00');
+  const HER_KEY = 'ann_2026_herLetter';
+  const HIS_READ_KEY = 'ann_2026_hisRead';
+
+  function timeUntil2027() {
+    const now = new Date(); const diff = UNLOCK_DATE - now;
+    if (diff <= 0) return null;
+    const d = Math.floor(diff / 86400000), h = Math.floor((diff%86400000)/3600000), m2 = Math.floor((diff%3600000)/60000), sec = Math.floor((diff%60000)/1000);
+    return { d, h, m: m2, s: sec };
+  }
+
+  function buildEnvelopes() {
+    const env = $('#envs');
+    env.style.display = 'flex';
+
+    // ---- HER ENVELOPE ----
+    const savedRaw = localStorage.getItem(HER_KEY);
+    const saved = savedRaw ? JSON.parse(savedRaw) : null;
+    const isUnlocked = new Date() >= UNLOCK_DATE;
+
+    let herHTML = `<div class="envelope" id="herEnv">
+      <h4>✉ Your Letter — Sealed until 24 Aug 2027</h4>`;
+
+    if (!saved) {
+      // Write mode
+      herHTML += `<div class="paper-surface"><textarea id="letterBox" placeholder="Write to our future selves... (only you can write this)"></textarea></div>
+      <div class="letter-action-area"><button class="btn-ghost" id="sealBtn">💌 Seal with Wax</button></div>`;
+    } else {
+      // Sealed state
+      herHTML += `<div class="sealed-display">
+        <div class="sealed-msg">🔒 Sealed on ${saved.sealedOn}</div>`;
+      if (isUnlocked) {
+        herHTML += `<div class="sealed-letter-preview unlocked">${saved.text}</div>`;
+      } else {
+        herHTML += `<div class="sealed-overlay">
+            <div class="lock-icon">🔒</div>
+            <div class="sealed-letter-preview" id="blurredLetter">${saved.text}</div>
+            <div style="margin-top:0.8rem; font-family:var(--mono); font-size:.65rem; color:var(--sky-blue); letter-spacing:.1em; text-align:center;">OPENS IN</div>
+            <div class="countdown-timer" id="timerDisplay">
+              <div class="countdown-unit"><span class="countdown-num" id="cd-d">--</span><span class="countdown-lbl">Days</span></div>
+              <div class="countdown-unit"><span class="countdown-num" id="cd-h">--</span><span class="countdown-lbl">Hrs</span></div>
+              <div class="countdown-unit"><span class="countdown-num" id="cd-m">--</span><span class="countdown-lbl">Min</span></div>
+              <div class="countdown-unit"><span class="countdown-num" id="cd-s">--</span><span class="countdown-lbl">Sec</span></div>
+            </div>
+          </div>`;
+      }
+      herHTML += `</div>`;
+    }
+    herHTML += `</div>`;
+
+    // ---- HIS ENVELOPE ----
+    const hisRead = localStorage.getItem(HIS_READ_KEY);
+    let hisHTML = `<div class="envelope" id="hisEnv">
+      <h4>✉ Tawsif's Letter — From the Heart</h4>`;
+    if (!hisRead) {
+      hisHTML += `<div class="letter-action-area"><button class="btn-ghost" id="breakSeal">Break Envelope Seal</button></div>
+      <div class="his-paper"><div class="his-letter-body" id="hisLetter">${CONFIG.hisLetterToHer}</div></div>`;
+    } else {
+      hisHTML += `<div class="his-paper"><div class="his-letter-body open" id="hisLetter">${CONFIG.hisLetterToHer}</div></div>`;
+    }
+    hisHTML += `</div>`;
+
+    env.innerHTML = herHTML + hisHTML;
+
+    // Seal button
+    if (!saved) {
+      $('#sealBtn') && $('#sealBtn').addEventListener('click', () => {
+        const text = $('#letterBox').value.trim();
+        if (!text) return;
+        const data = { text, sealedOn: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) };
+        localStorage.setItem(HER_KEY, JSON.stringify(data));
+        buildEnvelopes(); startCountdown();
+      });
+    }
+
+    // His letter break seal
+    const breakSeal = $('#breakSeal');
+    if (breakSeal) {
+      breakSeal.addEventListener('click', () => {
+        localStorage.setItem(HIS_READ_KEY, '1');
+        $('#hisLetter').classList.add('open');
+        breakSeal.style.display = 'none';
+      });
+    }
+
+    // Start countdown if sealed
+    if (saved && !isUnlocked) startCountdown();
+  }
+
+  let countdownInterval = null;
+  function startCountdown() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    function tick() {
+      const t = timeUntil2027();
+      if (!t) { clearInterval(countdownInterval); return; }
+      const dEl = $('#cd-d'), hEl = $('#cd-h'), mEl = $('#cd-m'), sEl = $('#cd-s');
+      if (dEl) dEl.textContent = t.d;
+      if (hEl) hEl.textContent = String(t.h).padStart(2,'0');
+      if (mEl) mEl.textContent = String(t.m).padStart(2,'0');
+      if (sEl) sEl.textContent = String(t.s).padStart(2,'0');
+    }
+    tick(); countdownInterval = setInterval(tick, 1000);
+  }
+
+  $('#enterBtn').addEventListener('click', () => {
+    $('#enterBtn').style.display = 'none';
+    buildEnvelopes();
+  });
+}
+
+/* ================================================================
+   SCENE 13 — SUNSET CLIMAX (Refined)
+   ================================================================ */
+function scene13() {
+  setWeather('stars');
+  const s = el(`<div class="scene">
+    <div class="eyebrow">The Final Chapter</div>
+    
+    <div class="sunset-stage" id="sunsetStage">
+      <!-- SKY STARS -->
+      <div class="sky-stars" id="skyStars"></div>
+      
+      <!-- THE HEART IN THE SKY (starts as circle/sun, morphs to heart) -->
+      <div class="sky-heart" id="skyHeart">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle class="sun-shape" cx="50" cy="50" r="42" id="sunCircle"/>
+          <path class="sun-shape" id="heartPath"
+            d="M50,85 C50,85 10,52 10,30 C10,15 25,10 40,25 C45,30 50,36 50,36 C50,36 55,30 60,25 C75,10 90,15 90,30 C90,52 50,85 50,85 Z"
+            style="opacity:0; transition: opacity 3.5s ease;"
+          />
+        </svg>
+      </div>
+      
+      <!-- Horizon glow -->
+      <div class="horizon-glow"></div>
+      
+      <!-- Water reflection -->
+      <div class="sun-reflection" id="sunReflection"></div>
+      
+      <!-- WATER -->
+      <div class="water">
+        <div class="ripple-line"></div>
+        <div class="ripple-line"></div>
+        <div class="ripple-line"></div>
+      </div>
+      
+      <!-- BOAT + SILHOUETTES -->
+      <svg class="boat-svg" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" style="position:absolute; bottom:34%; left:50%; transform:translateX(-50%); z-index:6; width:280px;">
+        <!-- Boat hull -->
+        <path d="M30,80 Q150,100 270,80 L250,95 Q150,115 50,95 Z" fill="#06010a" stroke="rgba(0,219,255,0.3)" stroke-width="1"/>
+        
+        <!-- Boy (Tawsif) sitting left, arm around her -->
+        <g transform="translate(108, 20)">
+          <!-- Panjabi kurta body -->
+          <path d="M0,60 L-10,30 Q-8,8 0,5 Q8,8 10,30 L0,60 Z" fill="#06010a" stroke="rgba(0,219,255,0.5)" stroke-width="1"/>
+          <!-- Arm around her -->
+          <path d="M10,25 Q28,20 38,28" stroke="rgba(0,219,255,0.5)" stroke-width="2" fill="none"/>
+          <!-- Head -->
+          <circle cx="0" cy="-4" r="10" fill="#06010a" stroke="rgba(0,219,255,0.4)" stroke-width="1"/>
+          <!-- Collar detail -->
+          <line x1="-3" y1="5" x2="0" y2="12" stroke="rgba(0,219,255,0.3)" stroke-width="0.8"/>
+          <line x1="3" y1="5" x2="0" y2="12" stroke="rgba(0,219,255,0.3)" stroke-width="0.8"/>
+        </g>
+
+        <!-- Girl (M) sitting right, head resting on his shoulder -->
+        <g transform="translate(162, 15)">
+          <!-- Sharee body with drape -->
+          <path d="M-8,65 L-14,28 Q-10,4 0,2 Q10,4 12,28 L6,65 Z" fill="#06010a" stroke="rgba(224,0,125,0.5)" stroke-width="1"/>
+          <!-- Saree drape over shoulder -->
+          <path d="M-14,28 Q-25,18 -20,8" stroke="rgba(224,0,125,0.4)" stroke-width="2" fill="none" stroke-dasharray="3,2"/>
+          <!-- Sitting leg -->
+          <path d="M6,65 Q12,58 18,68" fill="none" stroke="rgba(224,0,125,0.3)" stroke-width="1.5"/>
+          <!-- Head tilted toward him (left) -->
+          <circle cx="-8" cy="-8" r="9.5" fill="#06010a" stroke="rgba(224,0,125,0.4)" stroke-width="1"/>
+          <!-- Hair bun -->
+          <circle cx="-4" cy="-16" r="4" fill="#06010a" stroke="rgba(224,0,125,0.3)" stroke-width="0.8"/>
+          <!-- Bindi dot -->
+          <circle cx="-8" cy="-11" r="1.2" fill="var(--gold)"/>
+        </g>
+      </svg>
+      
+      <!-- Hover hint -->
+      <div id="sunsetHint" style="position:absolute; bottom:6%; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; color:rgba(255,255,255,0.35); z-index:8; white-space:nowrap;">TAP THE SCENE — WATCH THE SUN TRANSFORM</div>
+    </div>
+    
+    <div id="finalTexts"></div>
+  </div>`);
+  app.appendChild(s);
+
+  // Add sky stars
+  const skyStars = $('#skyStars');
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.className = 'sky-star';
+    star.style.cssText = `left:${Math.random()*100}%; top:${Math.random()*65}%; animation-delay:${Math.random()*2+1}s; width:${Math.random()<0.3?3:1.5}px; height:${Math.random()<0.3?3:1.5}px;`;
+    skyStars.appendChild(star);
+  }
+
+  // Trigger heart morph on click
+  const stage = $('#sunsetStage');
+  let morphed = false;
+  stage.addEventListener('click', () => {
+    if (morphed) return;
+    morphed = true;
+    $('#sunsetHint').style.opacity = '0';
+    stage.classList.add('heart-phase');
+    // Morph: hide circle, show heart path
+    const circle = $('#sunCircle'); const heartPath = $('#heartPath');
+    circle.style.transition = 'r 3.5s ease, fill 3.5s ease';
+    circle.setAttribute('r', '0');
+    setTimeout(() => { heartPath.style.opacity = '1'; }, 400);
+  });
+
+  // Final text sequence + big kiss
+  sequence($('#finalTexts'), [
+    "You once thought I was a passer-by.",
+    "You expected me to eventually disappear.",
+    "You tried to push me away five different times.",
+    "And yet... I am still here, holding your hand.",
+    "We never really fell in love.",
+    "<span class='glow'>I fell first. I grabbed your hand.</span>",
+    "<span class='glow' style='font-family:var(--serif); font-size:1.6rem;'>And I am never letting go.</span>"
+  ], { gap: 1600, done: () => {
+    // THE BIG MWAAH
+    setTimeout(() => triggerMwaah(), 800);
+
+    $('#finalTexts').appendChild(el(`
+      <h1 class="title" style="margin-top:2.5rem; line-height:1.2;">Happy First Anniversary, ${CONFIG.herName}</h1>
+      <p class="sub">365 days down. See you next August.</p>
+      <p class="line show" style="margin-top:1rem;">Thank you for staying too.</p>
+      <button class="begin-again" onclick="restart()">Begin Again ↻</button>
+    `));
+
+    // PS secret
+    let idleTimer;
+    function resetIdle() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => { const ps = $('#ps-secret'); ps.innerHTML = `P.S. — ${CONFIG.secretPS}`; ps.classList.add('show'); }, 10000);
+    }
+    ['click','keydown','mousemove','touchstart'].forEach(ev => document.addEventListener(ev, resetIdle));
+    resetIdle();
+  }});
+}
+
+function triggerMwaah() {
+  const overlay = $('#mwaahOverlay'); overlay.classList.add('active');
+  // Burst hearts from center
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('div'); h.className = 'heart-burst';
+    const angle = Math.random()*Math.PI*2; const dist = 100+Math.random()*250;
+    h.style.cssText = `left:50%; top:45%; --tx:${Math.cos(angle)*dist}px; --ty:${Math.sin(angle)*dist}px; animation-delay:${Math.random()*0.5}s; font-size:${1+Math.random()*2}rem;`;
+    h.textContent = '💗'; overlay.appendChild(h);
+  }
+}
+
+function restart() { goTo(0); }
+
+/* ================================================================
+   CONFIG — PERSONALIZATION
+   ================================================================ */
+const CONFIG = {
+  herName: "M",
+  hisName: "Tawsif",
+  anniversaryStart: "2025-08-24",
+  anniversaryEnd:   "2026-08-24",
+
+  openingMessages: [
+    { from: 'her', text: "Hiii, How are you?" },
+    { from: 'him', text: "Hey! I'm good. We are in the same class, right? 😊" },
+    { from: 'her', text: "Yes, we are." },
+    { from: 'him', text: "Ah, I thought so. You probably think I'm just another passer-by though..." },
+    { from: 'her', text: "We'll see about that." }
+  ],
+
+  attempts: [
+    { title: "ATTEMPT I",   story: "You told me that you deserved someone who wasn't stuck behind a screen.", reveal: "You were testing whether the physical miles would scare me off. It only made me hold on tighter." },
+    { title: "ATTEMPT II",  story: "You went silent for days, waiting to see if I'd grow cold and disappear.", reveal: "I didn't fade. I stayed right where you left me, waiting patiently for you to return." },
+    { title: "ATTEMPT III", story: "You told me: 'I'm too much, Tawsif. You will eventually get tired of me.'", reveal: "I never got tired. With every single day, I grew more certain of you." },
+    { title: "ATTEMPT IV",  story: "You started an argument out of nowhere, just to see if I'd pack up and leave.", reveal: "I stayed in the room. Walking away was never an option on my table." },
+    { title: "ATTEMPT V",   story: "You soft-heartedly begged me to find someone easier to love.", reveal: "But I didn't want easy. I wanted you, in every shade, through every storm." }
+  ],
+
+  memories: [
+    { id: "001", date: "Aug 2025", title: "The Beginning of Us", text: "When we realized we were sitting in the exact same class but looking at a completely different world. That first shared laugh changed everything." },
+    { id: "014", date: "Sep 2025", title: "Talking until sunrise", text: "The night the clocks melted away. We covered everything from childhood secrets to our deepest silent fears, refusing to say goodbye." },
+    { id: "030", date: "Oct 2025", title: "An inside joke is born", text: "That ridiculous banter neither of us can explain to anyone else. It became our secret sanctuary language." },
+    { id: "062", date: "Nov 2025", title: "A quiet understanding", text: "A moment of unspoken tension that ended not in a rift, but in realizing how deeply we care about keeping each other safe." },
+    { id: "090", date: "Dec 2025", title: "The first time you said it first", text: "A memory etched in gold. You let your guard completely down, and my world felt entirely complete." },
+    { id: "145", date: "Feb 2026", title: "The rainy evening call", text: "Listening to the heavy rainfall pouring on both our windows, feeling incredibly close despite the distance." },
+    { id: "210", date: "Apr 2026", title: "An emotional anchor", text: "The day everything went wrong in my day, and your voice single-handedly brought me back to absolute peace." },
+    { id: "280", date: "Jun 2026", title: "Plans spoken in whispers", text: "Dreaming about the days we'll share together under one roof, looking at the same rain, face-to-face." },
+    { id: "350", date: "Aug 2026", title: "The Secret Map", text: "Only found by someone who kept searching. Every single day of this past year was worth it. I would live it all over again in a heartbeat.", hidden: true }
+  ],
+
+  statistics: {
+    extraGoodNights: 85, extraGoodMornings: 62, messages: 58432, calls: 345, fights: 18, poemsWritten: 6
+  },
+
+  lovedThings: [
+    "The way you type multiple energetic lines when you're deeply excited about something.",
+    "How you quietly change the topic when you're shy, then return to it much later.",
+    "The warm, reassuring tone of your voice when you know I'm having an exhausting day.",
+    "The beautiful, soft silence on the phone when we both just listen to each other breathe."
+  ],
+  thingsThatDidntWork: [
+    { thought: "my constant overthinking", truth: "It proved to me how intensely you care about protecting our bond." },
+    { thought: "how guarded I was at the start", truth: "It taught me the beauty of slow patience, watching you slowly bloom." },
+    { thought: "the weight of my bad days", truth: "They are the exact days I learned how secure we are when things get heavy." }
+  ],
+
+  // 10 songs with YouTube video IDs
+  playlist: [
+    { title: "Perfect",            artist: "Ed Sheeran",        videoId: "2Vv-BfVoq4g", note: "Because every little thing about you is, to me." },
+    { title: "A Thousand Years",   artist: "Christina Perri",   videoId: "rtOvBOTyX00", note: "I have loved you for a thousand years. I'll love you for a thousand more." },
+    { title: "Can't Help Falling in Love", artist: "Elvis Presley", videoId: "vGJTaP6anOU", note: "Wise men say — only fools rush in. But I couldn't help it." },
+    { title: "Turning Page",       artist: "Sleeping at Last",  videoId: "sM9kAK4YC3k", note: "I surrender who I've been for who you are." },
+    { title: "All of Me",          artist: "John Legend",       videoId: "450p7goxZqg", note: "'Cause all of me loves all of you. All your curves and all your edges." },
+    { title: "Tum Hi Ho",          artist: "Arijit Singh",      videoId: "Umqb9KENgmk", note: "For the girl who thinks I'll eventually leave." },
+    { title: "Teri Baaton Mein",   artist: "Raahi",             videoId: "g3kgkMbUj7I", note: "Everything feels right when you speak." },
+    { title: "Yellow",             artist: "Coldplay",          videoId: "yKNxeF4KMsY", note: "Look at the stars — look how they shine for you." },
+    { title: "Thousand Years (Acoustic)", artist: "Travis Thompson", videoId: "na2PDOhBCVE", note: "A quieter version for the quietest nights." },
+    { title: "Fix You",            artist: "Coldplay",          videoId: "k4V3Mo61fJM", note: "Lights will guide you home. I will try to fix you." }
+  ],
+
+  futureTimeline: [
+    { year: "2026", text: "The present. Building our quiet foundation, choosing each other with every single text and call." },
+    { year: "2027", text: "I hope we have managed to close the physical gap by now. I hope we are finally walking side by side under the same sky." },
+    { year: "2028", text: "Creating a tiny space of our own, filled with bookshelves, plants, and the sound of morning rain." },
+    { year: "2029", text: "I hope our love has become beautifully ordinary — the kind of love built on quiet coffee cups and shared errands." },
+    { year: "2030", text: "I don't know who we will have become by this year. But my only constant hope is that you are still the person whose hand I hold." }
+  ],
+
+  hisLetterToHer: `Dear M,
+
+I built this small, private digital sanctuary because I couldn't place a physical gift into your hands. I wanted to wrap our memories in code instead.
+
+From that very first day in class when you thought I was merely passing through, to this moment right now — you have been my direction.
+
+Every storm we shared was worth walking through because it brought me to you.
+
+You are the person I want to still be writing letters to a decade from now. You are the reason I learned that staying is not weakness. Staying is the bravest thing two people can do for each other.
+
+Thank you for staying, even when your fears told you to run.
+
+I am entirely, deeply, and continuously yours.
+
+Happy Anniversary,
+Tawsif`,
+
+  secretPS: "You were never a passer-by, M. Not for a single second."
+};
+
+/* ================================================================
+   BOOT
+   ================================================================ */
+window.goTo = goTo;
+window.restart = restart;
+renderDots();
+renderScene();
+</script>
+</body>
+</html>
