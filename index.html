@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>365 Days Since You Stopped Being a Passer-By</title>
+<title>365 Days Since Our New Beginning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
@@ -811,7 +811,7 @@ const loadingConfigs = [
   // scene 2 — chemistry
   { title: "The Laboratory", text: "Heating the elements of us", theme: 'bubbles', color: '#f5c156' },
   // scene 3 — particle fall
-  { title: "Gravity", text: "Someone fell first", theme: 'rain', color: '#8113f0' },
+  { title: "Gravity", text: "Achhar kheye preme porlam...", theme: 'rain', color: '#8113f0' },
   // scene 4 — storm
   { title: "The Downpour", text: "Standing in the rain together", theme: 'lightning', color: '#00dbff' },
   // scene 5 — constellation
@@ -1584,7 +1584,7 @@ function scene9() {
   $('#rose').addEventListener('click', function once() {
     $('#petals').style.transform = 'scale(1.8)';
     for (let i = 0; i < 15; i++) { const f = el(`<div class="firefly" style="left:${Math.random()*100}%; top:${Math.random()*100}%; animation-delay:${Math.random()*2}s;"></div>`); s.appendChild(f); }
-    sequence($('#gardenText'), ["Beautiful things don't become beautiful because they are perfect.","<span class='glow'>They become beautiful because someone chooses to keep caring for them.</span>"], { gap: 1500, done: () => $('#gardenText').appendChild(el(continueBtn())) });
+    sequence($('#gardenText'), ["Ekta matro ful diye garden hoy na.","<span class='glow'>But Amar garden a ful ektai. Baki ful gula amra anbo eksathe prithibite.</span>"], { gap: 1500, done: () => $('#gardenText').appendChild(el(continueBtn())) });
     $('#rose').removeEventListener('click', once);
   });
 }
@@ -1596,7 +1596,7 @@ function scene10() {
   setWeather('stars');
   const s = el(`<div class="scene"><div class="eyebrow">Chapter Nine</div><div style="width:100%; max-width:600px; margin:0 auto 1.5rem;"><svg viewBox="0 0 500 280" width="100%"><defs><linearGradient id="moonGlow" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbf5ff" stop-opacity="0.8"/><stop offset="100%" stop-color="#e0007d" stop-opacity="0"/></linearGradient></defs><circle cx="420" cy="60" r="22" fill="url(#moonGlow)"/><g stroke="#f5c156" fill="none" stroke-width="1.2"><rect x="120" y="195" width="260" height="15"/><line x1="100" y1="210" x2="100" y2="100"/><path d="M96 100 L104 100 L102 90 L98 90 Z"/><line x1="400" y1="210" x2="400" y2="100"/><path d="M396 100 L404 100 L402 90 L398 90 Z"/><path d="M150 195 L150 120 L350 120 L350 195"/><path d="M210 195 L210 140 Q250 120 290 140 L290 195 Z"/><path d="M165 195 L165 165 Q180 155 195 165 L195 195"/><path d="M305 195 L305 165 Q320 155 335 165 L335 195"/><path d="M165 155 L165 135 Q180 128 195 135 L195 155"/><path d="M305 155 L305 135 Q320 128 335 135 L335 155"/><path d="M218 120 Q215 90 250 72 Q285 90 282 120 Z"/><line x1="250" y1="72" x2="250" y2="55"/><circle cx="250" cy="50" r="2"/><path d="M175 120 Q175 105 188 100 Q201 105 201 120 Z"/><path d="M299 120 Q299 105 312 100 Q325 105 325 120 Z"/></g><line x1="50" y1="210" x2="450" y2="210" stroke="#b88b32" stroke-width="1.5"/></svg></div><div id="tajText"></div></div>`);
   app.appendChild(s);
-  sequence($('#tajText'), ["Some people build structures from heavy stone.","They leave monuments in dynamic history.","I possess neither of those.","<span class='glow'>So I built mine from everything I remember about you.</span>"], { gap: 1600, done: () => $('#tajText').appendChild(el(continueBtn())) });
+  sequence($('#tajText'), ["shahajahan built Taj Mahal","They leave monuments in dynamic history.","I possess neither of those.","<span class='glow'>So I built mine from everything I remember about you.</span>"], { gap: 1600, done: () => $('#tajText').appendChild(el(continueBtn())) });
 }
 
 /* ================================================================
@@ -1866,13 +1866,13 @@ function scene13() {
 
   // Final text sequence + big kiss
   sequence($('#finalTexts'), [
-    "You once thought I was a passer-by.",
-    "You expected me to eventually disappear.",
+    "Once strangers",
+    "Thought, play and pass",
     "You tried to push me away five different times.",
     "And yet... I am still here, holding your hand.",
     "We never really fell in love.",
     "<span class='glow'>I fell first. I grabbed your hand.</span>",
-    "<span class='glow' style='font-family:var(--serif); font-size:1.6rem;'>And I am never letting go.</span>"
+    "<span class='glow' style='font-family:var(--serif); font-size:1.6rem;'>And I am never letting go. (more gele bhoot hoye tomake haunt korbo)</span>"
   ], { gap: 1600, done: () => {
     // THE BIG MWAAH
     setTimeout(() => triggerMwaah(), 800);
@@ -1918,47 +1918,49 @@ const CONFIG = {
   anniversaryEnd:   "2026-08-24",
 
   openingMessages: [
-    { from: 'her', text: "Hiii, How are you?" },
-    { from: 'him', text: "Hey! I'm good. We are in the same class, right? 😊" },
-    { from: 'her', text: "Yes, we are." },
-    { from: 'him', text: "Ah, I thought so. You probably think I'm just another passer-by though..." },
-    { from: 'her', text: "We'll see about that." }
+    { from: 'her', text: "Hiii!!!" },
+    { from: 'him', text: "Hlw" },
+    { from: 'her', text: "Apu, valo achen?" },
+    { from: 'him', text: "Ji bhalo. Apni kemon achen bhaiya?" },
+    { from: 'her', text: "ji Alhamdulillah valoi. Apni to Arafat sir er kache poren, right?" },
+    { from: 'him', text: "Ji. Amra to same age e. Tumi kore boli?" },
+    { from: 'her', text: "accha, somossha nai." }
   ],
 
   attempts: [
-    { title: "ATTEMPT I",   story: "You told me that you deserved someone who wasn't stuck behind a screen.", reveal: "You were testing whether the physical miles would scare me off. It only made me hold on tighter." },
-    { title: "ATTEMPT II",  story: "You went silent for days, waiting to see if I'd grow cold and disappear.", reveal: "I didn't fade. I stayed right where you left me, waiting patiently for you to return." },
+    { title: "ATTEMPT I",   story: "you said that tumi valo na, amar life ruin korba blah blah..", reveal: "tomake valobeshe felsi onek agei. So bhalo na bole chere dicchi na..." },
+    { title: "ATTEMPT II",  story: "Showed your insecurities", reveal: "I didn't fade. I kept loving those insecurities more." },
     { title: "ATTEMPT III", story: "You told me: 'I'm too much, Tawsif. You will eventually get tired of me.'", reveal: "I never got tired. With every single day, I grew more certain of you." },
     { title: "ATTEMPT IV",  story: "You started an argument out of nowhere, just to see if I'd pack up and leave.", reveal: "I stayed in the room. Walking away was never an option on my table." },
-    { title: "ATTEMPT V",   story: "You soft-heartedly begged me to find someone easier to love.", reveal: "But I didn't want easy. I wanted you, in every shade, through every storm." }
+    { title: "ATTEMPT V",   story: "Onek chet dekhaisila, bhoy paisilam", reveal: "But I loved you and wanted it to last. I didn't want easy. I wanted you, in every shade, through every storm." }
   ],
 
   memories: [
-    { id: "001", date: "Aug 2025", title: "The Beginning of Us", text: "When we realized we were sitting in the exact same class but looking at a completely different world. That first shared laugh changed everything." },
-    { id: "014", date: "Sep 2025", title: "Talking until sunrise", text: "The night the clocks melted away. We covered everything from childhood secrets to our deepest silent fears, refusing to say goodbye." },
-    { id: "030", date: "Oct 2025", title: "An inside joke is born", text: "That ridiculous banter neither of us can explain to anyone else. It became our secret sanctuary language." },
+    { id: "001", date: "Aug 2025", title: "The Beginning of Us", text: "First time tomake notice korlam. Bisshash koro amar khub broken lagtesilo. Etto awesome ekjon k ami kemne pabo? Now you are mine!!" },
+    { id: "014", date: "Sep 2025", title: "late night paragraphs", text: "Mone ase?? Late nights paragraphs ditam, amio tumio. I can't forget those reassurance" },
+    { id: "030", date: "Oct 2025", title: "Learning each other", text: "October ei amra actually ekjon arekjoner bepare closely jansi..." },
     { id: "062", date: "Nov 2025", title: "A quiet understanding", text: "A moment of unspoken tension that ended not in a rift, but in realizing how deeply we care about keeping each other safe." },
-    { id: "090", date: "Dec 2025", title: "The first time you said it first", text: "A memory etched in gold. You let your guard completely down, and my world felt entirely complete." },
-    { id: "145", date: "Feb 2026", title: "The rainy evening call", text: "Listening to the heavy rainfall pouring on both our windows, feeling incredibly close despite the distance." },
-    { id: "210", date: "Apr 2026", title: "An emotional anchor", text: "The day everything went wrong in my day, and your voice single-handedly brought me back to absolute peace." },
-    { id: "280", date: "Jun 2026", title: "Plans spoken in whispers", text: "Dreaming about the days we'll share together under one roof, looking at the same rain, face-to-face." },
+    { id: "090", date: "Dec 2025", title: "The first time talked to me", text: "Fan ta ektu charo to... I was really astonished" },
+    { id: "145", date: "Jan/Feb 2026", title: "The first call", text: "First time call e ki shormaitesilam.. ami bhoy o pacchilam tho" },
+    { id: "210", date: "Apr 2026", title: "SSC", text: "Normal school exam eo amra kotha boli nai. Ssc er time e thik e bolsi. Shei na??" },
+    { id: "280", date: "Jun 2026", title: "Plans spoken in whispers", text: "My birthday girl, ami oidin plan korsi, tomar fam k dekhaye dekhaye tomar jonno sob korbo. Jaate sobai tomar value bujhe" },
     { id: "350", date: "Aug 2026", title: "The Secret Map", text: "Only found by someone who kept searching. Every single day of this past year was worth it. I would live it all over again in a heartbeat.", hidden: true }
   ],
 
   statistics: {
-    extraGoodNights: 85, extraGoodMornings: 62, messages: 58432, calls: 345, fights: 18, poemsWritten: 6
+    extraGoodNights: 85, extraGoodMornings: 62, messages: 58432, calls: 5, fights: 18, poemsWritten: 25
   },
 
   lovedThings: [
-    "The way you type multiple energetic lines when you're deeply excited about something.",
+    "Tomar excited future plans. (literal tears in my eyes)",
     "How you quietly change the topic when you're shy, then return to it much later.",
-    "The warm, reassuring tone of your voice when you know I'm having an exhausting day.",
-    "The beautiful, soft silence on the phone when we both just listen to each other breathe."
+    "I loovvveeee your voice. And tomar yapping. Sharadin er khobor jante valo lage.",
+    "the way you care for everyone despite being hurt by them, I must respect you."
   ],
   thingsThatDidntWork: [
     { thought: "my constant overthinking", truth: "It proved to me how intensely you care about protecting our bond." },
     { thought: "how guarded I was at the start", truth: "It taught me the beauty of slow patience, watching you slowly bloom." },
-    { thought: "the weight of my bad days", truth: "They are the exact days I learned how secure we are when things get heavy." }
+    { thought: "the weight of your bad days", truth: "They are the exact days I learned how secure we are and how we need each other when things get heavy." }
   ],
 
   // 10 songs with YouTube video IDs
@@ -1966,10 +1968,10 @@ const CONFIG = {
     { title: "Perfect",            artist: "Ed Sheeran",        videoId: "2Vv-BfVoq4g", note: "Because every little thing about you is, to me." },
     { title: "A Thousand Years",   artist: "Christina Perri",   videoId: "rtOvBOTyX00", note: "I have loved you for a thousand years. I'll love you for a thousand more." },
     { title: "Can't Help Falling in Love", artist: "Elvis Presley", videoId: "vGJTaP6anOU", note: "Wise men say — only fools rush in. But I couldn't help it." },
-    { title: "Turning Page",       artist: "Sleeping at Last",  videoId: "sM9kAK4YC3k", note: "I surrender who I've been for who you are." },
-    { title: "All of Me",          artist: "John Legend",       videoId: "450p7goxZqg", note: "'Cause all of me loves all of you. All your curves and all your edges." },
+    { title: "Jhol",       artist: "Coke Studio",  videoId: "vWWOSOHnV1g", note: "I still dance being a wanderer of your mind" },
+    { title: "Shudhu tomake",          artist: "Franklin",       videoId: "KAn1SIGQrME", note: "Amar life 'shudhu tomake' niyei." },
     { title: "Tum Hi Ho",          artist: "Arijit Singh",      videoId: "Umqb9KENgmk", note: "For the girl who thinks I'll eventually leave." },
-    { title: "Teri Baaton Mein",   artist: "Raahi",             videoId: "g3kgkMbUj7I", note: "Everything feels right when you speak." },
+    { title: "What Makes You Beautiful",   artist: "One Direction",             videoId: "mfavkCY52MI", note: "You think you are not good wnough. I think you are the most beautiful gurl!!" },
     { title: "Yellow",             artist: "Coldplay",          videoId: "yKNxeF4KMsY", note: "Look at the stars — look how they shine for you." },
     { title: "Thousand Years (Acoustic)", artist: "Travis Thompson", videoId: "na2PDOhBCVE", note: "A quieter version for the quietest nights." },
     { title: "Fix You",            artist: "Coldplay",          videoId: "k4V3Mo61fJM", note: "Lights will guide you home. I will try to fix you." }
@@ -1977,30 +1979,32 @@ const CONFIG = {
 
   futureTimeline: [
     { year: "2026", text: "The present. Building our quiet foundation, choosing each other with every single text and call." },
-    { year: "2027", text: "I hope we have managed to close the physical gap by now. I hope we are finally walking side by side under the same sky." },
-    { year: "2028", text: "Creating a tiny space of our own, filled with bookshelves, plants, and the sound of morning rain." },
-    { year: "2029", text: "I hope our love has become beautifully ordinary — the kind of love built on quiet coffee cups and shared errands." },
-    { year: "2030", text: "I don't know who we will have become by this year. But my only constant hope is that you are still the person whose hand I hold." }
+    { year: "2027", text: "I hope we have managed to close the physical gap by now. I hope distance ektu hoileo kombe." },
+    { year: "2028", text: "Golden year. Final decision nibo tokhon. bashay janabo" },
+    { year: "2029", text: "Maybe we will be married." },
+    { year: "2030", text: "I don't know who we will have become by this year. I js know, Ami tomake tokhono valobashbo. ar amar tharki giri kombe na" }
   ],
 
-  hisLetterToHer: `Dear M,
+  hisLetterToHer: `Dear Hafsu,
 
 I built this small, private digital sanctuary because I couldn't place a physical gift into your hands. I wanted to wrap our memories in code instead.
 
-From that very first day in class when you thought I was merely passing through, to this moment right now — you have been my direction.
+Tumi amr keu chila na. Now you are my direction, my goal, my ambition, my life choice.
 
-Every storm we shared was worth walking through because it brought me to you.
+Every storm we shared was worth walking through because it brought me to you. kharap din gula kharap lage na amar.
 
 You are the person I want to still be writing letters to a decade from now. You are the reason I learned that staying is not weakness. Staying is the bravest thing two people can do for each other.
 
 Thank you for staying, even when your fears told you to run.
+
+Amake tmi kokhonoi haraio na pls!! tumio kokhono haraio na...
 
 I am entirely, deeply, and continuously yours.
 
 Happy Anniversary,
 Tawsif`,
 
-  secretPS: "You were never a passer-by, M. Not for a single second."
+  secretPS: "You were never a passer-by, Hafsu. Not for a single second."
 };
 
 /* ================================================================
