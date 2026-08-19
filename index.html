@@ -2281,4 +2281,58 @@ const CONFIG = {
     { title: "Jhol",       artist: "Coke Studio",  videoId: "vWWOSOHnV1g", note: "I still dance being a wanderer of your mind" },
     { title: "Shudhu tomake",          artist: "Franklin",       videoId: "KAn1SIGQrME", note: "Amar life 'shudhu tomake' niyei." },
     { title: "Tum Hi Ho",          artist: "Arijit Singh",      videoId: "Umqb9KENgmk", note: "For the girl who thinks I'll eventually leave." },
-    { title: "What Makes You Beautiful",   artist: "One Direction",             videoId: "mfavkCY52MI", note: "You think you are not good wnough. I think you are the
+    { title: "What Makes You Beautiful",   artist: "One Direction",             videoId: "mfavkCY52MI", note: "You think you are not good enough. I think you are the most beautiful gurl!!" },
+    { title: "Yellow",             artist: "Coldplay",          videoId: "yKNxeF4KMsY", note: "Look at the stars — look how they shine for you." },
+    { title: "Thousand Years (Acoustic)", artist: "Travis Thompson", videoId: "na2PDOhBCVE", note: "A quieter version for the quietest nights." },
+    { title: "Fix You",            artist: "Coldplay",          videoId: "k4V3Mo61fJM", note: "Lights will guide you home. I will try to fix you." }
+        ],
+
+  futureTimeline: [
+    { year: "2026", text: "The present. Building our quiet foundation, choosing each other with every single text and call." },
+    { year: "2027", text: "I hope we have managed to close the physical gap by now. I hope distance ektu hoileo kombe." },
+    { year: "2028", text: "Golden year. Final decision nibo tokhon. bashay janabo" },
+    { year: "2029", text: "Maybe we will be married." },
+    { year: "2030", text: "I don't know who we will have become by this year. I js know, Ami tomake tokhono valobashbo. ar amar tharki giri kombe na" }
+  ],
+
+  hisLetterToHer: `Dear Hafsu,
+
+I built this small, private digital sanctuary because I couldn't place a physical gift into your hands. I wanted to wrap our memories in code instead.
+
+Tumi amr keu chila na. Now you are my direction, my goal, my ambition, my life choice.
+
+Every storm we shared was worth walking through because it brought me to you. kharap din gula kharap lage na amar.
+
+You are the person I want to still be writing letters to a decade from now. You are the reason I learned that staying is not weakness. Staying is the bravest thing two people can do for each other.
+
+Thank you for staying, even when your fears told you to run.
+
+Amake tmi kokhonoi haraio na pls!! tumio kokhono haraio na...
+
+I am entirely, deeply, and continuously yours.
+
+Happy Anniversary,
+Tawsif`,
+
+  secretPS: "You were never a passer-by, Hafsu. Not for a single second."
+};
+
+/* ================================================================
+   BOOT
+   ================================================================ */
+window.goTo = goTo;
+window.restart = restart;
+
+// Pre-load YouTube IFrame Player API immediately on boot to secure user-interaction playback context on mobile browsers
+(function preLoadYTApi() {
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
+
+renderDots();
+renderScene();
+</script>
+</body>
+</html>
