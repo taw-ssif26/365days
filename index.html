@@ -295,7 +295,56 @@ h1.title {
 .flip-card.open .front { color: var(--gold); }
 
 /* ============================================================
-   CHAPTER 08 — MIDNIGHT RADIO
+   CHAPTER 08 (NEW) — NICKNAMES SECTION
+   ============================================================ */
+.nicknames-container {
+  display: flex; gap: 2rem; max-width: 800px; width: 100%; margin: 2rem auto;
+  justify-content: center; align-items: stretch;
+}
+.nickname-column {
+  flex: 1; min-width: 280px; border: 1px solid rgba(0, 145, 255, 0.25);
+  border-radius: 12px; background: rgba(17, 2, 29, 0.5); padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; flex-direction: column;
+  align-items: center; transition: border-color 0.3s;
+}
+.nickname-column:hover { border-color: var(--magenta); }
+.nickname-column h3 {
+  font-family: var(--serif); font-size: 1.6rem; color: var(--gold);
+  margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(245, 193, 86, 0.3);
+}
+.nickname-list { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; width: 100%; }
+.nickname-pill {
+  font-family: var(--sans); font-size: 1rem; color: var(--ivory-dim);
+  background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 145, 255, 0.2);
+  border-radius: 20px; padding: 0.6rem 1.2rem; cursor: pointer; user-select: none;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); display: inline-flex;
+  align-items: center; gap: 0.4rem; position: relative;
+}
+.nickname-pill:focus-visible { outline: 2px solid var(--sky-blue); outline-offset: 2px; }
+.nickname-pill:hover, .nickname-pill.active {
+  color: var(--ivory); border-color: var(--magenta); background: rgba(224, 0, 125, 0.1);
+  transform: translateY(-3px) scale(1.05) rotate(1.5deg); box-shadow: 0 6px 15px rgba(224, 0, 125, 0.25);
+}
+.nickname-pill .pill-heart {
+  color: var(--magenta); font-size: 0.85rem; opacity: 0;
+  transform: scale(0); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.nickname-pill:hover .pill-heart, .nickname-pill.active .pill-heart { opacity: 1; transform: scale(1); }
+.nicknames-footer {
+  font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--gold);
+  margin-top: 2rem; text-align: center; text-shadow: 0 0 10px rgba(245, 193, 86, 0.2);
+}
+.sparkle {
+  position: absolute; pointer-events: none; z-index: 100; color: var(--magenta);
+  font-size: 1rem; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  text-shadow: 0 0 10px rgba(224, 0, 125, 0.8);
+}
+@media (max-width: 640px) {
+  .nicknames-container { flex-direction: column; gap: 1.5rem; }
+}
+
+/* ============================================================
+   CHAPTER 09 — MIDNIGHT RADIO
    ============================================================ */
 .radio-frame { width: 100%; max-width: 520px; border: 1px solid rgba(0, 145, 255, 0.4); border-radius: 12px; padding: 2rem; background: rgba(17, 2, 29, 0.7); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .disc { width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle, var(--charcoal) 30%, var(--magenta) 32%, var(--charcoal) 35%, var(--magenta) 60%); margin: 0 auto 1.5rem; animation: spin 8s linear infinite; animation-play-state: paused; box-shadow: 0 0 15px rgba(224, 0, 125, 0.4); }
@@ -311,14 +360,14 @@ h1.title {
 .track-note { font-family: var(--serif); font-style: italic; color: var(--gold); margin-top: 1.5rem; font-size: 1.05rem; min-height: 2.5em; line-height: 1.6; }
 
 /* ============================================================
-   CHAPTER 09 — ROSE GARDEN
+   CHAPTER 10 — ROSE GARDEN
    ============================================================ */
 .rose-wrap { position: relative; width: 220px; height: 220px; margin: 2rem auto; cursor: pointer; }
 .firefly { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px 4px var(--magenta); animation: drift 5s ease-in-out infinite alternate; }
 @keyframes drift { from { transform: translate(0,0); } to { transform: translate(20px,-15px); } }
 
 /* ============================================================
-   CHAPTER 11 — ORBIT
+   CHAPTER 12 — ORBIT
    ============================================================ */
 .orbit-wrap { position: relative; width: min(85vw, 450px); height: min(85vw, 450px); margin: 2rem auto; }
 .orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--magenta); text-shadow: 0 0 15px rgba(224, 0, 125, 0.5); }
@@ -332,7 +381,7 @@ h1.title {
 .future-text { max-width: 580px; margin-top: 1.5rem; min-height: 4.5em; font-family: var(--serif); font-size: 1.15rem; color: var(--ivory-dim); line-height: 1.65; }
 
 /* ============================================================
-   CHAPTER 12 — LETTER VAULT (Paper Writing Experience)
+   CHAPTER 13 — LETTER VAULT (Paper Writing Experience)
    ============================================================ */
 .vault-door { width: 190px; height: 250px; border: 2px solid var(--magenta); border-radius: 90px 90px 12px 12px; margin: 2rem auto; display: flex; align-items: center; justify-content: center; position: relative; }
 .vault-door::before { content: ''; position: absolute; inset: 15px; border: 1px dashed rgba(0, 145, 255, 0.4); border-radius: 75px 75px 8px 8px; }
@@ -416,7 +465,7 @@ h1.title {
 .letter-action-area { padding: 1.2rem 1.5rem; display: flex; gap: 0.8rem; flex-wrap: wrap; border-top: 1px solid rgba(0,145,255,0.15); }
 
 /* ============================================================
-   CHAPTER 13 — SUNSET CLIMAX (Refined)
+   CHAPTER 14 — SUNSET CLIMAX (Refined)
    ============================================================ */
 .sunset-stage {
   position: relative; width: 100%; max-width: 680px; height: 380px;
@@ -820,17 +869,19 @@ const loadingConfigs = [
   { title: "The Ledger", text: "Counting every single day", theme: 'counter', color: '#e0007d' },
   // scene 7 — observatory
   { title: "The Observatory", text: "Finding the tiny universe of you", theme: 'telescope', color: '#8113f0' },
-  // scene 8 — radio
+  // scene 8 — nicknames (NEW)
+  { title: "Our Little Names", text: "Whispering our private vocabulary", theme: 'heartbeat', color: '#e0007d' },
+  // scene 9 — radio
   { title: "Midnight Broadcast", text: "Searching for the right frequency", theme: 'waveform', color: '#00dbff' },
-  // scene 9 — rose
+  // scene 10 — rose
   { title: "The Garden", text: "A bud is about to open", theme: 'petals', color: '#e0007d' },
-  // scene 10 — taj
+  // scene 11 — taj
   { title: "The Monument", text: "Building something from memory", theme: 'draw', color: '#f5c156' },
-  // scene 11 — future
+  // scene 12 — future
   { title: "The Years Ahead", text: "Orbiting into tomorrow", theme: 'orbit_load', color: '#8113f0' },
-  // scene 12 — letters
+  // scene 13 — letters
   { title: "The Vault", text: "Unlocking something sacred", theme: 'vault', color: '#f5c156' },
-  // scene 13 — climax
+  // scene 14 — climax
   { title: "Full Circle", text: "Where it all began again", theme: 'heart_final', color: '#e0007d' },
 ];
 
@@ -1258,7 +1309,7 @@ function fmt(n) { return n.toLocaleString('en-US'); }
    ROUTING
    ================================================================ */
 let scene = 0;
-const TOTAL_SCENES = 14;
+const TOTAL_SCENES = 15;
 function renderDots() {
   const wrap = $('#progress-dots'); wrap.innerHTML = '';
   for (let i = 1; i < TOTAL_SCENES; i++) wrap.appendChild(el(`<i class="${i <= scene ? 'done' : ''}"></i>`));
@@ -1273,7 +1324,7 @@ function renderScene() {
     ytPlayer.pauseVideo();
   }
   app.innerHTML = '';
-  [scene0,scene1,scene2,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10,scene11,scene12,scene13][scene]();
+  [scene0,scene1,scene2,scene3,scene4,scene5,scene6,scene7,scene8,scene9,scene10,scene11,scene12,scene13,scene14][scene]();
 }
 
 /* ================================================================
@@ -1488,12 +1539,155 @@ function scene7() {
 }
 
 /* ================================================================
-   SCENE 8 — MIDNIGHT RADIO (Notes positioned on top of the list)
+   SCENE 8 — NICKNAMES (NEW SECTION)
    ================================================================ */
 function scene8() {
   setWeather('stars');
+  
   const s = el(`<div class="scene">
     <div class="eyebrow">Chapter Seven</div>
+    <h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">${CONFIG.nicknamesTitle || "Our Little Names"}</h1>
+    <p class="sub" style="max-width: 550px; margin: 0 auto 2rem; line-height: 1.6;">${CONFIG.nicknamesSubtitle || "Names that somehow became ours."}</p>
+    
+    <div class="nicknames-container" id="nicknamesContainer">
+      <div class="nickname-column">
+        <h3>${CONFIG.hersColumnTitle || "Names I Call You"}</h3>
+        <div class="nickname-list" id="hersList"></div>
+      </div>
+      <div class="nickname-column">
+        <h3>${CONFIG.mineColumnTitle || "Names You Call Me"}</h3>
+        <div class="nickname-list" id="mineList"></div>
+      </div>
+    </div>
+    
+    <button class="btn-ghost" id="shuffleNicknamesBtn" style="margin: 1.5rem 0;">✦ Shuffle our names ✦</button>
+    
+    <div class="nicknames-footer">
+      ${CONFIG.nicknamesFooter || "So many names. Still the same two idiots. ❤️"}
+    </div>
+    
+    ${continueBtn()}
+  </div>`);
+  app.appendChild(s);
+  
+  const hersList = $('#hersList');
+  const mineList = $('#mineList');
+  
+  function renderNicknames(shuffled = false) {
+    hersList.innerHTML = '';
+    mineList.innerHTML = '';
+    
+    let hersData = [...CONFIG.nicknames.hers];
+    let mineData = [...CONFIG.nicknames.mine];
+    
+    if (shuffled) {
+      hersData.sort(() => Math.random() - 0.5);
+      mineData.sort(() => Math.random() - 0.5);
+    }
+    
+    hersData.forEach((name) => {
+      const pill = el(`<div class="nickname-pill" tabindex="0">
+        <span class="pill-heart">♥</span>
+        <span>${name}</span>
+      </div>`);
+      hersList.appendChild(pill);
+      
+      pill.addEventListener('click', () => {
+        pill.classList.toggle('active');
+        createSparkle(pill);
+      });
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pill.click();
+        }
+      });
+    });
+    
+    mineData.forEach((name) => {
+      const pill = el(`<div class="nickname-pill" tabindex="0">
+        <span class="pill-heart">♥</span>
+        <span>${name}</span>
+      </div>`);
+      mineList.appendChild(pill);
+      
+      pill.addEventListener('click', () => {
+        pill.classList.toggle('active');
+        createSparkle(pill);
+      });
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pill.click();
+        }
+      });
+    });
+    
+    // Animate entries progressively with staggered entry
+    if (!reduced) {
+      const allPills = s.querySelectorAll('.nickname-pill');
+      allPills.forEach((p, i) => {
+        p.style.opacity = '0';
+        p.style.transform = 'scale(0.8) translateY(10px)';
+        setTimeout(() => {
+          p.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          p.style.opacity = '1';
+          p.style.transform = '';
+        }, i * 45);
+      });
+    }
+  }
+  
+  function createSparkle(target) {
+    if (reduced) return;
+    const rect = target.getBoundingClientRect();
+    const parent = $('#app');
+    const scrollY = window.scrollY;
+    
+    for (let i = 0; i < 6; i++) {
+      const sparkle = el(`<div class="sparkle" style="
+        left: ${rect.left + rect.width / 2}px;
+        top: ${rect.top + rect.height / 2 + scrollY}px;
+        transform: translate(0, 0) scale(1);
+      ">♥</div>`);
+      
+      parent.appendChild(sparkle);
+      
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 25 + Math.random() * 35;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      
+      requestAnimationFrame(() => {
+        sparkle.style.transform = `translate(${tx}px, ${ty}px) scale(0)`;
+        sparkle.style.opacity = '0';
+      });
+      
+      setTimeout(() => sparkle.remove(), 800);
+    }
+  }
+  
+  $('#shuffleNicknamesBtn').addEventListener('click', () => {
+    const allPills = s.querySelectorAll('.nickname-pill');
+    allPills.forEach(p => {
+      p.style.transform = 'scale(0) rotate(15deg)';
+      p.style.opacity = '0';
+    });
+    setTimeout(() => {
+      renderNicknames(true);
+    }, 300);
+  });
+  
+  renderNicknames();
+}
+
+/* ================================================================
+   SCENE 9 — MIDNIGHT RADIO (Notes positioned on top of the list)
+   ================================================================ */
+function scene9() {
+  setWeather('stars');
+  const s = el(`<div class="scene">
+    <div class="eyebrow">Chapter Eight</div>
     <h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">Tonight's Broadcast</h1>
     <p class="sub">Tuned in specifically for one person.</p>
     <div class="radio-frame">
@@ -1575,11 +1769,11 @@ function scene8() {
 }
 
 /* ================================================================
-   SCENE 9 — ROSE
+   SCENE 10 — ROSE
    ================================================================ */
-function scene9() {
+function scene10() {
   setWeather('stars');
-  const s = el(`<div class="scene"><div class="eyebrow">Chapter Eight</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Garden</h1><p class="sub">Click the rose to watch it bloom.</p><div class="rose-wrap" id="rose"><svg viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="7" fill="#f5c156"/><g id="petals" style="transform-origin:100px 100px; transition:transform 1.8s cubic-bezier(.25,1,.2,1);">${Array.from({length:10}).map((_,i)=>`<ellipse cx="100" cy="100" rx="35" ry="14" fill="#e0007d" opacity=".6" transform="rotate(${i*36} 100 100) translate(22 0)"/>`).join('')}</g></svg></div><div id="gardenText"></div></div>`);
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Nine</div><h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Garden</h1><p class="sub">Click the rose to watch it bloom.</p><div class="rose-wrap" id="rose"><svg viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="7" fill="#f5c156"/><g id="petals" style="transform-origin:100px 100px; transition:transform 1.8s cubic-bezier(.25,1,.2,1);">${Array.from({length:10}).map((_,i)=>`<ellipse cx="100" cy="100" rx="35" ry="14" fill="#e0007d" opacity=".6" transform="rotate(${i*36} 100 100) translate(22 0)"/>`).join('')}</g></svg></div><div id="gardenText"></div></div>`);
   app.appendChild(s);
   $('#rose').addEventListener('click', function once() {
     $('#petals').style.transform = 'scale(1.8)';
@@ -1590,22 +1784,22 @@ function scene9() {
 }
 
 /* ================================================================
-   SCENE 10 — TAJ MAHAL
+   SCENE 11 — TAJ MAHAL
    ================================================================ */
-function scene10() {
+function scene11() {
   setWeather('stars');
-  const s = el(`<div class="scene"><div class="eyebrow">Chapter Nine</div><div style="width:100%; max-width:600px; margin:0 auto 1.5rem;"><svg viewBox="0 0 500 280" width="100%"><defs><linearGradient id="moonGlow" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbf5ff" stop-opacity="0.8"/><stop offset="100%" stop-color="#e0007d" stop-opacity="0"/></linearGradient></defs><circle cx="420" cy="60" r="22" fill="url(#moonGlow)"/><g stroke="#f5c156" fill="none" stroke-width="1.2"><rect x="120" y="195" width="260" height="15"/><line x1="100" y1="210" x2="100" y2="100"/><path d="M96 100 L104 100 L102 90 L98 90 Z"/><line x1="400" y1="210" x2="400" y2="100"/><path d="M396 100 L404 100 L402 90 L398 90 Z"/><path d="M150 195 L150 120 L350 120 L350 195"/><path d="M210 195 L210 140 Q250 120 290 140 L290 195 Z"/><path d="M165 195 L165 165 Q180 155 195 165 L195 195"/><path d="M305 195 L305 165 Q320 155 335 165 L335 195"/><path d="M165 155 L165 135 Q180 128 195 135 L195 155"/><path d="M305 155 L305 135 Q320 128 335 135 L335 155"/><path d="M218 120 Q215 90 250 72 Q285 90 282 120 Z"/><line x1="250" y1="72" x2="250" y2="55"/><circle cx="250" cy="50" r="2"/><path d="M175 120 Q175 105 188 100 Q201 105 201 120 Z"/><path d="M299 120 Q299 105 312 100 Q325 105 325 120 Z"/></g><line x1="50" y1="210" x2="450" y2="210" stroke="#b88b32" stroke-width="1.5"/></svg></div><div id="tajText"></div></div>`);
+  const s = el(`<div class="scene"><div class="eyebrow">Chapter Ten</div><div style="width:100%; max-width:600px; margin:0 auto 1.5rem;"><svg viewBox="0 0 500 280" width="100%"><defs><linearGradient id="moonGlow" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbf5ff" stop-opacity="0.8"/><stop offset="100%" stop-color="#e0007d" stop-opacity="0"/></linearGradient></defs><circle cx="420" cy="60" r="22" fill="url(#moonGlow)"/><g stroke="#f5c156" fill="none" stroke-width="1.2"><rect x="120" y="195" width="260" height="15"/><line x1="100" y1="210" x2="100" y2="100"/><path d="M96 100 L104 100 L102 90 L98 90 Z"/><line x1="400" y1="210" x2="400" y2="100"/><path d="M396 100 L404 100 L402 90 L398 90 Z"/><path d="M150 195 L150 120 L350 120 L350 195"/><path d="M210 195 L210 140 Q250 120 290 140 L290 195 Z"/><path d="M165 195 L165 165 Q180 155 195 165 L195 195"/><path d="M305 195 L305 165 Q320 155 335 165 L335 195"/><path d="M165 155 L165 135 Q180 128 195 135 L195 155"/><path d="M305 155 L305 135 Q320 128 335 135 L335 155"/><path d="M218 120 Q215 90 250 72 Q285 90 282 120 Z"/><line x1="250" y1="72" x2="250" y2="55"/><circle cx="250" cy="50" r="2"/><path d="M175 120 Q175 105 188 100 Q201 105 201 120 Z"/><path d="M299 120 Q299 105 312 100 Q325 105 325 120 Z"/></g><line x1="50" y1="210" x2="450" y2="210" stroke="#b88b32" stroke-width="1.5"/></svg></div><div id="tajText"></div></div>`);
   app.appendChild(s);
   sequence($('#tajText'), ["shahajahan built Taj Mahal","They leave monuments in dynamic history.","I possess neither of those.","<span class='glow'>So I built mine from everything I remember about you.</span>"], { gap: 1600, done: () => $('#tajText').appendChild(el(continueBtn())) });
 }
 
 /* ================================================================
-   SCENE 11 — FUTURE TIMELINE (Feedback positioned on top of Orbit)
+   SCENE 12 — FUTURE TIMELINE (Feedback positioned on top of Orbit)
    ================================================================ */
-function scene11() {
+function scene12() {
   setWeather('stars');
   const s = el(`<div class="scene">
-    <div class="eyebrow">Chapter Ten</div>
+    <div class="eyebrow">Chapter Eleven</div>
     <h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Years Ahead</h1>
     <p class="sub">Looking through windows that haven't opened yet.</p>
     <!-- Future Node Text positioned on top to maintain mobile viewport visibility -->
@@ -1631,12 +1825,12 @@ function scene11() {
 }
 
 /* ================================================================
-   SCENE 12 — LETTER VAULT (Restored completely)
+   SCENE 13 — LETTER VAULT (Restored completely)
    ================================================================ */
-function scene12() {
+function scene13() {
   setWeather('stars');
   const s = el(`<div class="scene">
-    <div class="eyebrow">Chapter Eleven</div>
+    <div class="eyebrow">Chapter Twelve</div>
     <h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">The Letter Vault</h1>
     <p class="sub">Sealed letters to look back upon next August.</p>
     <button class="btn-ghost" id="enterBtn">🔐 Unlock Vault Door</button>
@@ -1762,9 +1956,9 @@ function scene12() {
 }
 
 /* ================================================================
-   SCENE 13 — SUNSET CLIMAX (Refined)
+   SCENE 14 — SUNSET CLIMAX (Refined)
    ================================================================ */
-function scene13() {
+function scene14() {
   setWeather('stars');
   const s = el(`<div class="scene">
     <div class="eyebrow">The Final Chapter</div>
@@ -1916,6 +2110,35 @@ const CONFIG = {
   hisName: "Tawsif",
   anniversaryStart: "2025-08-24",
   anniversaryEnd:   "2026-08-24",
+
+  // ================================================================
+  // DATA: data/nicknames.ts (Embedded Editable Block)
+  // Add, remove, or reorder nicknames inside the arrays below.
+  // ================================================================
+  nicknames: {
+    hers: [
+      "Hafsu",
+      "Hafu",
+      "My Butterfly",
+      "Hafsuuu",
+      "Chubby Cheek",
+      "Pikachu",
+      "My Garden's Only Rose"
+    ],
+    mine: [
+      "Tawsif",
+      "Tawu",
+      "Bhoot",
+      "Tharki",
+      "Apu",
+      "Kallu"
+    ]
+  },
+  nicknamesTitle: "Our Little Names",
+  nicknamesSubtitle: "Names that somehow became ours.",
+  hersColumnTitle: "Names I Call You",
+  mineColumnTitle: "Names You Call Me",
+  nicknamesFooter: "So many names. Still the same two idiots. ❤️",
 
   openingMessages: [
     { from: 'her', text: "Hiii!!!" },
