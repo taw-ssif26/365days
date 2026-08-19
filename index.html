@@ -1,3 +1,18 @@
+Here is the updated, fully-integrated, and responsive code for your anniversary
+website.
+
+To respect the single-file interactive structure of your application, the
+nicknames data is stored in the CONFIG.nicknames object at the bottom of the
+script tag, and the UI dynamically maps over these arrays. This fulfills your
+requirement of keeping the database easily editable in one centralized place,
+while automatically updating the interface layout upon any additions, removals,
+or reorderings.
+
+A new scene (Chapter Seven — Our Little Names) has been elegantly inserted after
+Chapter Six (Observatory), shifting all subsequent chapters down systematically.
+
+Updated Anniversary Webpage Code
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -295,135 +310,52 @@ h1.title {
 .flip-card.open .front { color: var(--gold); }
 
 /* ============================================================
-   CHAPTER 08 (NEW) — HANGING CARDS NICKNAMES SECTION
+   CHAPTER 08 (NEW) — NICKNAMES SECTION
    ============================================================ */
 .nicknames-container {
-  display: flex; gap: 3rem; max-width: 850px; width: 100%; margin: 2rem auto;
-  justify-content: center; align-items: flex-start;
+  display: flex; gap: 2rem; max-width: 800px; width: 100%; margin: 2rem auto;
+  justify-content: center; align-items: stretch;
 }
 .nickname-column {
-  flex: 1; min-width: 280px; display: flex; flex-direction: column; align-items: center;
+  flex: 1; min-width: 280px; border: 1px solid rgba(0, 145, 255, 0.25);
+  border-radius: 12px; background: rgba(17, 2, 29, 0.5); padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; flex-direction: column;
+  align-items: center; transition: border-color 0.3s;
 }
+.nickname-column:hover { border-color: var(--magenta); }
 .nickname-column h3 {
   font-family: var(--serif); font-size: 1.6rem; color: var(--gold);
   margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(245, 193, 86, 0.3);
 }
-
-/* Clothesline visual wire decoration */
-.clothesline {
-  position: relative; width: 100%; height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(245, 193, 86, 0.7) 15%, rgba(224, 0, 125, 0.8) 50%, rgba(0, 219, 255, 0.7) 85%, transparent);
-  margin-bottom: 1rem; box-shadow: 0 0 8px rgba(224, 0, 125, 0.3);
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+.nickname-list { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; width: 100%; }
+.nickname-pill {
+  font-family: var(--sans); font-size: 1rem; color: var(--ivory-dim);
+  background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 145, 255, 0.2);
+  border-radius: 20px; padding: 0.6rem 1.2rem; cursor: pointer; user-select: none;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); display: inline-flex;
+  align-items: center; gap: 0.4rem; position: relative;
 }
-.clothesline.shake {
-  animation: wireShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite alternate;
+.nickname-pill:focus-visible { outline: 2px solid var(--sky-blue); outline-offset: 2px; }
+.nickname-pill:hover, .nickname-pill.active {
+  color: var(--ivory); border-color: var(--magenta); background: rgba(224, 0, 125, 0.1);
+  transform: translateY(-3px) scale(1.05) rotate(1.5deg); box-shadow: 0 6px 15px rgba(224, 0, 125, 0.25);
 }
-@keyframes wireShake {
-  0% { transform: translateY(-3px); }
-  100% { transform: translateY(3px); }
+.nickname-pill .pill-heart {
+  color: var(--magenta); font-size: 0.85rem; opacity: 0;
+  transform: scale(0); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
-.nickname-list {
-  display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center;
-  align-items: flex-start; width: 100%; min-height: 250px;
-}
-
-/* Dynamic Hanging Note/Card Wrapper */
-.hanging-item {
-  display: flex; flex-direction: column; align-items: center;
-  position: relative; transform-origin: top center; opacity: 0;
-  /* CardDrop cascade transition, followed by continuous dynamic swing transition */
-  animation: cardDrop 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards, 
-             gentleSwing 5.5s ease-in-out infinite alternate 1.2s;
-}
-/* Organic desynchronization of swinging duration and offset per card */
-.hanging-item:nth-child(odd) { animation-duration: 1.2s, 4.8s; animation-delay: 0s, 1.2s; }
-.hanging-item:nth-child(3n) { animation-duration: 1.2s, 6.2s; animation-delay: 0s, 1.2s; }
-
-/* Cascade Drop Entry keyframes */
-@keyframes cardDrop {
-  0% { transform: translateY(-350px) rotate(22deg); opacity: 0; }
-  60% { transform: translateY(12px) rotate(-8deg); opacity: 1; }
-  80% { transform: translateY(-6px) rotate(4deg); }
-  100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-}
-
-/* Idle dangling Swing keyframes */
-@keyframes gentleSwing {
-  0% { transform: rotate(-3.5deg); }
-  100% { transform: rotate(3.5deg); }
-}
-
-/* Violent gust swing when wire triggers a shuffle */
-.hanging-item.wind-blow {
-  animation: wildSwing 0.8s ease-in-out 3 alternate !important;
-}
-@keyframes wildSwing {
-  0% { transform: rotate(-22deg) scale(0.95); }
-  100% { transform: rotate(22deg) scale(0.95); }
-}
-
-/* Hanging glowing connection thread */
-.hanging-string {
-  width: 1px;
-  background: linear-gradient(to bottom, rgba(245, 193, 86, 0.8), rgba(224, 0, 125, 0.8));
-  box-shadow: 0 0 6px rgba(224, 0, 125, 0.4);
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.hanging-item:hover .hanging-string, .hanging-item.active .hanging-string {
-  background: linear-gradient(to bottom, var(--sky-blue), var(--gold));
-  width: 1.5px; box-shadow: 0 0 10px rgba(0, 219, 255, 0.7);
-}
-
-/* Connection pin */
-.hanging-clip {
-  width: 8px; height: 10px; background: rgba(245, 193, 86, 0.9);
-  border-radius: 1px; z-index: 2; margin-top: -4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-
-/* Card Surface Design */
-.nickname-card {
-  background: linear-gradient(135deg, rgba(24, 3, 38, 0.92) 0%, rgba(6, 1, 10, 0.96) 100%);
-  border: 1px solid rgba(0, 145, 255, 0.25); border-radius: 6px;
-  padding: 0.8rem 1.2rem; min-width: 110px; text-align: center;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55); cursor: pointer; user-select: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-}
-.nickname-card::before {
-  content: '♥'; position: absolute; top: -11px; left: 50%;
-  transform: translateX(-50%); color: var(--magenta); font-size: 0.75rem;
-  text-shadow: 0 0 4px var(--magenta); opacity: 0.8;
-}
-.nickname-card span.name-text {
-  font-family: var(--script); font-size: 1.4rem; color: var(--ivory-dim);
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.1); transition: all 0.3s;
-}
-
-/* Card Hover/Tap interactions */
-.nickname-card:hover, .nickname-card.active {
-  border-color: var(--gold);
-  box-shadow: 0 10px 22px rgba(245, 193, 86, 0.22), inset 0 0 6px rgba(245, 193, 86, 0.1);
-  transform: scale(1.06) translateY(2px);
-}
-.nickname-card:hover span.name-text, .nickname-card.active span.name-text {
-  color: var(--gold); text-shadow: 0 0 12px rgba(245, 193, 86, 0.7);
-}
-
+.nickname-pill:hover .pill-heart, .nickname-pill.active .pill-heart { opacity: 1; transform: scale(1); }
 .nicknames-footer {
   font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--gold);
   margin-top: 2rem; text-align: center; text-shadow: 0 0 10px rgba(245, 193, 86, 0.2);
 }
 .sparkle {
   position: absolute; pointer-events: none; z-index: 100; color: var(--magenta);
-  font-size: 1.1rem; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  font-size: 1rem; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   text-shadow: 0 0 10px rgba(224, 0, 125, 0.8);
 }
 @media (max-width: 640px) {
-  .nicknames-container { flex-direction: column; gap: 2rem; }
-  .nickname-list { min-height: 200px; }
+  .nicknames-container { flex-direction: column; gap: 1.5rem; }
 }
 
 /* ============================================================
@@ -1095,7 +1027,7 @@ function startLoadingAnimation(config) {
 
     else if (theme === 'bubbles') {
       particles.forEach(p => {
-        p.y += p.vy; p.x += p.vx + Math.sin(t + p.x * 0.3;
+        p.y += p.vy; p.x += p.vx + Math.sin(t + p.x) * 0.3;
         lctx.globalAlpha = p.opacity;
         
         // Soft glowing inner color with a contrasting border
@@ -1622,7 +1554,7 @@ function scene7() {
 }
 
 /* ================================================================
-   SCENE 8 — NICKNAMES (NEW COCOON / HANGING CARDS SECTION)
+   SCENE 8 — NICKNAMES (NEW SECTION)
    ================================================================ */
 function scene8() {
   setWeather('stars');
@@ -1630,22 +1562,20 @@ function scene8() {
   const s = el(`<div class="scene">
     <div class="eyebrow">Chapter Seven</div>
     <h1 class="title" style="font-size:clamp(1.8rem,4vw,2.8rem);">${CONFIG.nicknamesTitle || "Our Little Names"}</h1>
-    <p class="sub" style="max-width:580px; margin: 0 auto 1.5rem; line-height: 1.6;">${CONFIG.nicknamesSubtitle || "Names that somehow became ours."}</p>
+    <p class="sub" style="max-width: 550px; margin: 0 auto 2rem; line-height: 1.6;">${CONFIG.nicknamesSubtitle || "Names that somehow became ours."}</p>
     
     <div class="nicknames-container" id="nicknamesContainer">
       <div class="nickname-column">
         <h3>${CONFIG.hersColumnTitle || "Names I Call You"}</h3>
-        <div class="clothesline" id="hersLine"></div>
         <div class="nickname-list" id="hersList"></div>
       </div>
       <div class="nickname-column">
         <h3>${CONFIG.mineColumnTitle || "Names You Call Me"}</h3>
-        <div class="clothesline" id="mineLine"></div>
         <div class="nickname-list" id="mineList"></div>
       </div>
     </div>
     
-    <button class="btn-ghost" id="shuffleNicknamesBtn" style="margin: 1.5rem auto 2.5rem;">🍃 Blow Wind & Shuffle 🍃</button>
+    <button class="btn-ghost" id="shuffleNicknamesBtn" style="margin: 1.5rem 0;">✦ Shuffle our names ✦</button>
     
     <div class="nicknames-footer">
       ${CONFIG.nicknamesFooter || "So many names. Still the same two idiots. ❤️"}
@@ -1670,52 +1600,57 @@ function scene8() {
       mineData.sort(() => Math.random() - 0.5);
     }
     
-    // Custom height mapping to staggered lines to prevent overlapping clotheslines
-    const heights = window.innerWidth < 640 ? [35, 60, 40, 70, 45, 55] : [55, 95, 65, 115, 75, 105, 85];
-    
-    hersData.forEach((name, idx) => {
-      const h = heights[idx % heights.length];
-      const delay = idx * 0.15; // cascade delay fall from sky
-      const pill = el(`<div class="hanging-item" style="animation-delay: ${delay}s, ${delay + 1.2}s;">
-        <div class="hanging-string" style="height: ${h}px;"></div>
-        <div class="hanging-clip"></div>
-        <div class="nickname-card" tabindex="0">
-          <span class="name-text">${name}</span>
-        </div>
+    hersData.forEach((name) => {
+      const pill = el(`<div class="nickname-pill" tabindex="0">
+        <span class="pill-heart">♥</span>
+        <span>${name}</span>
       </div>`);
       hersList.appendChild(pill);
       
-      const card = pill.querySelector('.nickname-card');
-      card.addEventListener('click', () => {
-        card.classList.toggle('active');
-        createSparkle(card);
+      pill.addEventListener('click', () => {
+        pill.classList.toggle('active');
+        createSparkle(pill);
       });
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pill.click();
+        }
       });
     });
     
-    mineData.forEach((name, idx) => {
-      const h = heights[(idx + 2) % heights.length];
-      const delay = idx * 0.15;
-      const pill = el(`<div class="hanging-item" style="animation-delay: ${delay}s, ${delay + 1.2}s;">
-        <div class="hanging-string" style="height: ${h}px;"></div>
-        <div class="hanging-clip"></div>
-        <div class="nickname-card" tabindex="0">
-          <span class="name-text">${name}</span>
-        </div>
+    mineData.forEach((name) => {
+      const pill = el(`<div class="nickname-pill" tabindex="0">
+        <span class="pill-heart">♥</span>
+        <span>${name}</span>
       </div>`);
       mineList.appendChild(pill);
       
-      const card = pill.querySelector('.nickname-card');
-      card.addEventListener('click', () => {
-        card.classList.toggle('active');
-        createSparkle(card);
+      pill.addEventListener('click', () => {
+        pill.classList.toggle('active');
+        createSparkle(pill);
       });
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+      pill.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          pill.click();
+        }
       });
     });
+    
+    // Animate entries progressively with staggered entry
+    if (!reduced) {
+      const allPills = s.querySelectorAll('.nickname-pill');
+      allPills.forEach((p, i) => {
+        p.style.opacity = '0';
+        p.style.transform = 'scale(0.8) translateY(10px)';
+        setTimeout(() => {
+          p.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          p.style.opacity = '1';
+          p.style.transform = '';
+        }, i * 45);
+      });
+    }
   }
   
   function createSparkle(target) {
@@ -1734,7 +1669,7 @@ function scene8() {
       parent.appendChild(sparkle);
       
       const angle = Math.random() * Math.PI * 2;
-      const distance = 30 + Math.random() * 40;
+      const distance = 25 + Math.random() * 35;
       const tx = Math.cos(angle) * distance;
       const ty = Math.sin(angle) * distance;
       
@@ -1748,21 +1683,14 @@ function scene8() {
   }
   
   $('#shuffleNicknamesBtn').addEventListener('click', () => {
-    const allPills = s.querySelectorAll('.hanging-item');
-    const lineL = $('#hersLine'); const lineR = $('#mineLine');
-    
-    // Wind Blow shaking clothesline animation
-    lineL.classList.add('shake'); lineR.classList.add('shake');
-    
+    const allPills = s.querySelectorAll('.nickname-pill');
     allPills.forEach(p => {
-      p.classList.add('wind-blow');
-      p.style.animation = 'none'; // reset loop
+      p.style.transform = 'scale(0) rotate(15deg)';
+      p.style.opacity = '0';
     });
-    
     setTimeout(() => {
-      lineL.classList.remove('shake'); lineR.classList.remove('shake');
       renderNicknames(true);
-    }, 1200);
+    }, 300);
   });
   
   renderNicknames();
@@ -2210,7 +2138,7 @@ const CONFIG = {
       "Hafsuuu",
       "Chubby Cheek",
       "Pikachu",
-      "My Only Rose"
+      "My Garden's Only Rose"
     ],
     mine: [
       "Tawsif",
@@ -2222,7 +2150,7 @@ const CONFIG = {
     ]
   },
   nicknamesTitle: "Our Little Names",
-  nicknamesSubtitle: "The private vocabulary that somehow became ours.",
+  nicknamesSubtitle: "Names that somehow became ours.",
   hersColumnTitle: "Names I Call You",
   mineColumnTitle: "Names You Call Me",
   nicknamesFooter: "So many names. Still the same two idiots. ❤️",
@@ -2281,11 +2209,11 @@ const CONFIG = {
     { title: "Jhol",       artist: "Coke Studio",  videoId: "vWWOSOHnV1g", note: "I still dance being a wanderer of your mind" },
     { title: "Shudhu tomake",          artist: "Franklin",       videoId: "KAn1SIGQrME", note: "Amar life 'shudhu tomake' niyei." },
     { title: "Tum Hi Ho",          artist: "Arijit Singh",      videoId: "Umqb9KENgmk", note: "For the girl who thinks I'll eventually leave." },
-    { title: "What Makes You Beautiful",   artist: "One Direction",             videoId: "mfavkCY52MI", note: "You think you are not good enough. I think you are the most beautiful gurl!!" },
+    { title: "What Makes You Beautiful",   artist: "One Direction",             videoId: "mfavkCY52MI", note: "You think you are not good wnough. I think you are the most beautiful gurl!!" },
     { title: "Yellow",             artist: "Coldplay",          videoId: "yKNxeF4KMsY", note: "Look at the stars — look how they shine for you." },
     { title: "Thousand Years (Acoustic)", artist: "Travis Thompson", videoId: "na2PDOhBCVE", note: "A quieter version for the quietest nights." },
     { title: "Fix You",            artist: "Coldplay",          videoId: "k4V3Mo61fJM", note: "Lights will guide you home. I will try to fix you." }
-        ],
+  ],
 
   futureTimeline: [
     { year: "2026", text: "The present. Building our quiet foundation, choosing each other with every single text and call." },
